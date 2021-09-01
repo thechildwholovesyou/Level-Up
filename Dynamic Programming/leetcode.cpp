@@ -183,7 +183,7 @@ public:
             if(r>=0 and c>=0 and r<=er and c<=ec and obstacleGrid[r][c]!=1)
                 count+=uniquePathsWithObstacles_rec(r,c,er,ec,dir,obstacleGrid,dp);
         }
-        return dp[sr][sc]=count;;
+        return dp[sr][sc]=count;
         
     }
     
@@ -244,4 +244,127 @@ public:
     }
 };
 
-//
+// mem code
+
+class Solution {
+public:
+    
+    bool wordBreakHelper_mem(string s,int i,unordered_set<string>&dict,vector<bool>&dp)
+    {
+        if(s.size()==0)
+            return dp[i]=true;
+        
+        if(dp[i]!=false) return dp[i];
+    
+        bool ans=false;
+        
+        for(int i=0;i<s.size();i++)
+        {
+            string pword=s.substr(0,i+1);
+            if(dict.find(pword)!=dict.end())
+            {
+                ans = ans || wordBreakHelper_mem(s.substr(i+1),i, dict,dp);
+            }
+        }
+        return dp[i]=ans;;
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        
+        
+        unordered_set<string> dict(wordDict.begin(),wordDict.end());
+        vector<bool> dp(s.size()+1, false);
+        
+         return wordBreakHelper_mem(s,0,dict,dp);
+        
+       
+    }
+};
+
+// 322. Coin Change
+// https://leetcode.com/problems/coin-change/
+
+// rec code
+
+class Solution {
+public:
+    int coinChange_rec(vector<int>& coins, int amount,int &res,int count)
+    {
+        if(amount<0) return -1;
+        if(amount==0)
+        {
+            res=min(res,count);
+            return res;
+        }
+        for(int i=0;i<coins.size();i++)
+        {
+            coinChange_rec(coins, amount-coins[i],res,count+1);
+        }
+        return res;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+        int res =INT_MAX;
+        int ans =coinChange_rec(coins, amount, res,0);
+        
+        if(ans==INT_MAX) return -1;
+        return ans;
+    }
+};
+
+// mem code
+
+// tab code
+
+
+// 1219. Path with Maximum Gold
+// https://leetcode.com/problems/path-with-maximum-gold/
+
+// rec code
+
+class Solution {
+public:
+    
+    int getMaximumGold_rec(int sr,int sc,int er,int ec,vector<vector<int>>&grid, vector<vector<int>>&dir)
+    {
+        int val=grid[sr][sc];
+    
+        int maxGold = 0;
+        grid[sr][sc]=-grid[sr][sc];
+        for(auto ele: dir)
+        {
+            int r=sr+ele[0];
+            int c=sc+ele[1];
+            
+            if(r>=0 and c>=0 and r<=er and c<=ec and grid[r][c]>0)
+            {
+                int recGold = getMaximumGold_rec(r,c,er,ec,grid, dir);
+                maxGold = max(recGold, maxGold);
+            }
+        }
+        grid[sr][sc]=-grid[sr][sc];
+        return maxGold+val;
+    }
+    
+    int getMaximumGold(vector<vector<int>>& grid) {
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        int maxGold=0;
+        vector<vector<int>> dir{{0,-1},{0,1},{1,0},{-1,0}};
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid[i][j]>0)
+                {
+                    int recGold=getMaximumGold_rec(i,j,n-1,m-1,grid,dir);
+                    maxGold=max(recGold, maxGold);
+                }
+            }
+        }
+        return maxGold;
+    }
+};
+
+//mem code 
