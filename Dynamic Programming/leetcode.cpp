@@ -455,3 +455,50 @@ public:
         return numDecodings_mem(s,0,dp);
     }
 };
+
+// tabu 
+class Solution {
+public:
+    
+    int numDecodings_tabu(string s, int idx,vector<int>&dp)
+    {
+        for(int i=s.size();i>=0;i--)
+        {
+            if(i==s.size())
+            {
+                dp[i]=1;
+                continue;
+            }
+            char ch=s[i];
+            if(ch=='0')
+            {
+                dp[i]=0;
+                continue;
+            }
+            int count =dp[i+1];
+            
+            if(i<s.size()-1)
+            {
+                char ch1=s[i+1];
+                int num =(ch-'0')*10+(ch1-'0');
+                if(num<=26)
+                    count+=dp[i+2];
+            }
+            dp[i]=count;
+        }
+        return dp[idx];
+    }
+    
+    int numDecodings(string s) {
+        if(s.size()==0)
+            return 0;
+        if(s[0]=='0')
+            return 0;
+        if(s.size()==1)
+            return 1;
+        
+        vector<int>dp(s.size()+1,-1);
+        
+        return numDecodings_tabu(s,0,dp);
+    }
+};
