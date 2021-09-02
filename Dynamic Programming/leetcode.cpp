@@ -368,3 +368,90 @@ public:
 };
 
 //mem code 
+
+// 91. Decode Ways
+// https://leetcode.com/problems/decode-ways/
+
+
+// rec code 
+
+class Solution {
+public:
+    
+    int numDecodings_rec(string s)
+    {
+        if(s.size()==0)
+        {
+            return 1;
+        }
+        char ch=s[0];
+        if(ch=='0')
+            return 0;
+        
+        int count=0;
+        count+=numDecodings_rec(s.substr(1));
+        
+        if(s.size()>1)
+        {
+            int num=(ch-'0')*10+(s[1]-'0');
+            if(num<=26)
+            {
+                count+=numDecodings_rec(s.substr(2));
+            }
+        }
+        return count;
+    }
+    
+    int numDecodings(string s) {
+        if(s.size()==0)
+            return 0;
+        if(s[0]=='0')
+            return 0;
+        if(s.size()==1)
+            return 1;
+        int res=numDecodings_rec(s);
+        return res;
+    }
+};
+
+// mem code
+
+class Solution {
+public:
+    
+    int numDecodings_mem(string s, int idx, vector<int>&dp)
+    {
+        if(idx==s.size())
+            return dp[idx]=1;
+        
+        if(dp[idx]!=-1) return dp[idx];
+        
+        char ch=s[idx];
+        if(ch=='0') return dp[idx]=0;
+        int count= numDecodings_mem(s,idx+1, dp);
+        
+        if(idx<s.size()-1)
+        {
+            char ch1= s[idx+1];
+            int num = (ch-'0')*10+(ch1-'0');
+            if(num<=26)
+            {
+                count+=numDecodings_mem(s,idx+2,dp);
+            }
+        }
+        return dp[idx]=count;
+    }
+    
+    int numDecodings(string s) {
+        if(s.size()==0)
+            return 0;
+        if(s[0]=='0')
+            return 0;
+        if(s.size()==1)
+            return 1;
+        
+        vector<int>dp(s.size()+1,-1);
+        
+        return numDecodings_mem(s,0,dp);
+    }
+};
