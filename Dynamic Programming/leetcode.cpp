@@ -65,6 +65,58 @@ public:
 
 // tab code
 
+class Solution {
+public:
+    
+    void display(vector<vector<int>>v)
+    {
+        for(int i=0;i<v.size();i++)
+        {
+            for(int j=0;j<v[0].size();j++)
+            {
+                cout<<v[i][j]<<" ";
+            }
+            cout<<endl;
+        }
+    }
+    
+    int uniquePaths_tabu(int sr,int sc,int er,int ec,vector<vector<int>>&dir,vector<vector<int>>&dp)
+    {
+        for(int i=er;i>=0;i--)
+        {
+            for(int j=ec;j>=0;j--)
+            {
+                if(i==er and j==ec)
+                {
+                    dp[i][j]=1;
+                    continue;
+                }
+                 int count =0;
+        
+                for(auto d: dir)
+                {
+                    int r=i+d[0];
+                    int c=j+d[1];
+
+                    if(r>=0 and c>=0 and r<=dp.size() and c<=dp[0].size())
+                        count+=dp[r][c];
+                }
+                dp[i][j]=count;
+            }
+        }
+        return dp[0][0];
+       
+    }
+    
+    int uniquePaths(int m, int n) {
+        vector<vector<int>>dir{{0,1},{1,0}};
+        vector<vector<int>> dp( m+1 , vector<int> (n+1, 0));
+        int ans = uniquePaths_tabu(0,0,m-1,n-1,dir,dp);
+        display(dp);
+        return ans;
+    }
+};
+
 // 377. Combination Sum IV
 // https://leetcode.com/problems/combination-sum-iv/
 
