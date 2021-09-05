@@ -179,3 +179,80 @@ public:
     }
 };
 
+
+
+// 1092. Shortest Common Supersequence
+// https://leetcode.com/problems/shortest-common-supersequence/
+
+class Solution {
+public:
+    
+    string lcs_dp(string a,string b,int m,int n,vector<vector<int>>&dp)
+    {
+        // initialization 
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0 or j==0)
+                    dp[i][j]=0;
+            }
+        }
+        
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(a[i-1]==b[j-1])
+                    dp[i][j]=dp[i-1][j-1]+1;
+                else
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+        // print lcs
+        int i=m,j=n;
+        string s="";
+        while(i>0 and j>0)
+        {
+            if(a[i-1]==b[j-1])
+            {
+                s.push_back(a[i-1]);
+                i--;
+                j--;
+            }
+            else if(dp[i-1][j] > dp[i][j-1])
+            {
+                s.push_back(a[i-1]);
+                i--;
+            }
+            else
+            {
+                s.push_back(b[j-1]);
+                j--;
+            }
+                   
+            
+        }
+        
+        while(i>0)
+        {
+            s.push_back(a[i-1]);
+            i--;
+        }
+        while(j>0)
+        {
+            s.push_back(b[j-1]);
+            j--;
+        }
+        std:: reverse(s.begin(),s.end());
+        
+        return s;
+    }
+    
+    string shortestCommonSupersequence(string str1, string str2) {
+        vector<vector<int>>dp(str1.size()+1, vector<int>(str2.size()+1,0));
+        string lcs=lcs_dp(str1,str2,str1.size(),str2.size(),dp);
+        
+        return lcs;
+    }
+};
