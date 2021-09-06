@@ -595,3 +595,118 @@ public:
         return lcs_tabu(a,s,a.size(),s.size(),dp);
     }
 };
+
+
+// 72. Edit Distance
+// https://leetcode.com/problems/edit-distance/
+
+// rec
+
+class Solution {
+public:
+    
+    int min_dist_rec(string s1,string s2,int m,int n)
+    {
+        if(m==0) return n;
+        if(n==0) return m;
+        
+        if(s1[m-1]==s2[n-1])
+            return min_dist_rec(s1,s2,m-1,n-1);
+        
+        
+            int op1=min_dist_rec(s1,s2,m-1,n-1);
+            int op2=min_dist_rec(s1,s2,m,n-1);
+            int op3=min_dist_rec(s1,s2,m-1,n);
+            
+            return 1+min(op1,min(op2,op3));
+    }
+    int minDistance(string s1, string s2) {
+        return min_dist_rec(s1,s2,s1.size(),s2.size());
+        
+    }
+};
+
+// mem 
+class Solution {
+public:
+    
+    int min_dist_rec(string s1,string s2,int m,int n,vector<vector<int>>&dp)
+    {
+        if(m==0) return n;
+        if(n==0) return m;
+        
+        if(dp[m][n]!=0) return dp[m][n];
+        
+        if(s1[m-1]==s2[n-1])
+        {
+            dp[m][n]=min_dist_rec(s1,s2,m-1,n-1,dp);
+            return min_dist_rec(s1,s2,m-1,n-1,dp);
+        }
+                    
+            int op1=min_dist_rec(s1,s2,m-1,n-1,dp);
+            int op2=min_dist_rec(s1,s2,m,n-1,dp);
+            int op3=min_dist_rec(s1,s2,m-1,n,dp);
+            
+            dp[m][n]=1+min(op1,min(op2,op3));
+            return 1+min(op1,min(op2,op3));
+        
+    }
+    int minDistance(string s1, string s2) {
+        
+        vector<vector<int>>dp(s1.size()+1,vector<int>(s2.size()+1,0));
+        return min_dist_rec(s1,s2,s1.size(),s2.size(),dp);
+        
+    }
+};
+
+// 115. Distinct Subsequences
+
+// https://leetcode.com/problems/distinct-subsequences/
+
+// rec
+
+class Solution {
+public:
+    
+    int numDistinct_rec(string a,string b,int m,int n)
+    {
+        if(n==0)
+            return 1;
+        if(m==0)
+            return 0;
+        if(a[m-1]==b[n-1])
+            return numDistinct_rec(a,b,m-1,n-1)+numDistinct_rec(a,b,m-1,n);
+        else
+            return numDistinct_rec(a,b,m-1,n);
+    }
+    int numDistinct(string s, string t) {
+        return numDistinct_rec(s,t,s.size(),t.size());
+    }
+};
+
+// memo 
+class Solution {
+public:
+    
+    int numDistinct_rec(string &a,string &b,int m,int n,vector<vector<int>>&dp)
+    {
+        if(n==0)
+            return 1;
+        if(m==0)
+            return 0;
+        
+        if(dp[m][n]!=-1) return dp[m][n];
+        
+        if(a[m-1]==b[n-1])
+        {
+            dp[m][n]=numDistinct_rec(a,b,m-1,n-1,dp)+numDistinct_rec(a,b,m-1,n,dp);
+            return numDistinct_rec(a,b,m-1,n-1,dp)+numDistinct_rec(a,b,m-1,n,dp);
+        }
+            dp[m][n]=numDistinct_rec(a,b,m-1,n,dp);
+            return numDistinct_rec(a,b,m-1,n,dp);
+    }
+    int numDistinct(string s, string t) {
+        vector<vector<int>>dp(s.size()+1,vector<int>(t.size()+1,-1));
+        return numDistinct_rec(s,t,s.size(),t.size(),dp);
+    }
+};
