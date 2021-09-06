@@ -710,3 +710,43 @@ public:
         return numDistinct_rec(s,t,s.size(),t.size(),dp);
     }
 };
+
+
+// 583. Delete Operation for Two Strings
+// https://leetcode.com/problems/delete-operation-for-two-strings/
+
+class Solution {
+public:
+    
+    int lcs_tabu(string a,string b,int n,int m,vector<vector<int>>&dp)
+    {   
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0 or j==0)
+                    dp[i][j]=0;
+            }
+        }
+        
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(a[i-1]==b[j-1])
+                    dp[i][j]=dp[i-1][j-1]+1;
+                else
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+        return dp[n][m];
+    }
+    int minDistance(string word1, string word2) {
+        vector<vector<int>>dp(word1.size()+1, vector<int>(word2.size()+1,-1));
+        int lcs=lcs_tabu(word1,word2,word1.size(),word2.size(),dp);
+        
+        int deletions=word1.size()-lcs;
+        int insertions=word2.size()-lcs;
+        return deletions+insertions;
+    }
+};
