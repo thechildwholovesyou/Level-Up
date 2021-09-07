@@ -298,3 +298,53 @@ public:
         return deletions;
     }
 };
+
+// 392. Is Subsequence
+// https://leetcode.com/problems/is-subsequence/
+
+class Solution {
+public:
+    
+    int lcs_tabu(string a, string b,int n,int m,vector<vector<int>>&dp)
+    {
+        // initialiaztion 
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0 or j==0){
+                    dp[i][j]=0;
+                }
+            }
+        }
+        
+        // main dp
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(a[i-1]==b[j-1])
+                {
+                    dp[i][j]=dp[i-1][j-1]+1;
+                }
+                else
+                {
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+                }
+            }
+        }
+        return dp[n][m];
+    }
+    
+    bool isSubsequence(string s, string t) {
+        
+        if(s.size() == 0 && t.size() == 0) return true;
+        if(s.size() == 0 && t.size() != 0) return true;
+        if(s.size() != 0 && t.size() == 0) return false;
+        vector<vector<int>>dp(s.size()+1, vector<int>(t.size()+1, -1));
+        int lcs=lcs_tabu(s,t,s.size(),t.size(),dp);
+        if(lcs==min(s.size(),t.size()))
+            return true;
+        return false;
+    }
+};
