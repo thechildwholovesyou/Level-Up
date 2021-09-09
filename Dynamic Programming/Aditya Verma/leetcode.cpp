@@ -562,3 +562,187 @@ class Solution{
         return findLength_tabu(a, b,a.size(),b.size(),dp);
     }
 };
+
+
+// 
+
+// rec code
+
+class Solution {
+public:
+    
+    bool isPalindrome(string s,int i,int j)
+    {
+        
+        while(i<j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    int minCut_rec(string s,int i,int j)
+    {
+        if(i>=j) return 0;
+        if(isPalindrome(s,i,j)) return 0;
+        int mini=INT_MAX;
+        
+        for(int k=i;k<=j-1;k++)
+        {
+            int tempAns=minCut_rec(s,i,k)+minCut_rec(s,k+1,j)+1;
+            mini=min(tempAns,mini);
+        }
+        return mini;
+    }
+    int minCut(string s) {
+        return minCut_rec(s,0,s.size()-1);
+    }
+};
+
+// memo code
+
+class Solution {
+public:
+    
+    bool isPalindrome(string s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    int minCut_rec(string s,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>=j) return 0;
+        if(isPalindrome(s,i,j)) return 0;
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        
+        int mini=INT_MAX;
+        
+        for(int k=i;k<=j-1;k++)
+        {
+            int tempAns=minCut_rec(s,i,k,dp)+minCut_rec(s,k+1,j,dp)+1;
+            mini=min(tempAns,mini);
+            dp[i][j]=mini;
+        }
+        return dp[i][j]=mini;
+    }
+    int minCut(string s) {
+        vector<vector<int>>dp(s.size()+1,vector<int>(s.size()+1,-1));
+        return minCut_rec(s,0,s.size()-1,dp);
+    }
+};
+
+// memo opti 
+
+class Solution {
+public:
+    
+    bool isPalindrome(string &s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    int minCut_memo_opti(string &s,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>=j) return 0;
+        if(isPalindrome(s,i,j)) return 0;
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        
+        int mini=INT_MAX;
+        
+        for(int k=i;k<=j-1;k++)
+        {
+            
+            int left ,right;
+            
+            if(dp[i][k]!=-1)
+                left=dp[i][k];
+            else
+                left=minCut_memo_opti(s,i,k,dp);
+            
+            if(dp[k+1][j]!=-1)
+                right=dp[k+1][j];
+            else
+                right=minCut_memo_opti(s,k+1,j,dp);
+            
+            int tempAns=left+right+1;
+            mini=min(tempAns,mini);
+            dp[i][j]=mini;
+        }
+        return dp[i][j]=mini;
+    }
+    int minCut(string s) {
+        vector<vector<int>>dp(s.size()+1,vector<int>(s.size()+1,-1));
+        return minCut_memo_opti(s,0,s.size()-1,dp);
+    }
+};
+
+// memo more opti 
+// bc kuch TC paas nhi hore the 
+
+class Solution {
+public:
+    
+    bool isPalindrome(string &s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    int minCut_memo_opti(string &s,int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>=j) return 0;
+        if(isPalindrome(s,i,j)) return 0;
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        
+        int mini=INT_MAX;
+        
+        for(int k=i;k<=j-1;k++)
+        {
+            
+            if(!isPalindrome(s,i,k)) continue;
+            
+            int left ,right;
+            
+            if(dp[i][k]!=-1)
+                left=dp[i][k];
+            else
+                left=minCut_memo_opti(s,i,k,dp);
+            
+            if(dp[k+1][j]!=-1)
+                right=dp[k+1][j];
+            else
+                right=minCut_memo_opti(s,k+1,j,dp);
+            
+            int tempAns=left+right+1;
+            mini=min(tempAns,mini);
+            dp[i][j]=mini;
+        }
+        return dp[i][j]=mini;
+    }
+    int minCut(string s) {
+        vector<vector<int>>dp(s.size()+1,vector<int>(s.size()+1,-1));
+        return minCut_memo_opti(s,0,s.size()-1,dp);
+    }
+};
