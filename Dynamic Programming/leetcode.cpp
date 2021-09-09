@@ -836,3 +836,28 @@ public:
         return maxUncrossedLines_tabu(nums1, nums2, nums1.size(),nums2.size(),dp);
     }
 };
+
+// Max Dot Product of Two Subsequences
+// https://leetcode.com/problems/max-dot-product-of-two-subsequences/
+// rec code
+
+class Solution {
+public:
+    int maxDotProduct_rec(vector<int>& a, vector<int>& b,int m,int n)
+    {
+        if(m==0 or n==0) return 0;
+        
+        int op1=a[m-1]*b[n-1]+maxDotProduct_rec(a,b,m-1,n-1);
+        int op2=maxDotProduct_rec(a,b,m-1,n);
+        int op3=maxDotProduct_rec(a,b,m,n-1);
+        
+        return max(op1,max(op2,op3));
+    }
+    
+    int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
+        
+        
+        int ans = maxDotProduct_rec(nums1,nums2,nums1.size(),nums2.size());
+        return ans;
+    }
+};
