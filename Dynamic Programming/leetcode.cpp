@@ -750,3 +750,89 @@ public:
         return deletions+insertions;
     }
 };
+
+
+// 1035. Uncrossed Lines
+// https://leetcode.com/problems/uncrossed-lines/
+
+// rec 
+
+class Solution {
+public:
+    
+    int maxUncrossedLines_rec(vector<int>& a, vector<int>& b,int m,int n)
+    {
+        if(n==0 or m==0) return 0;
+        if(a[m-1]==b[n-1])
+            return maxUncrossedLines_rec(a,b,m-1,n-1)+1;
+        else
+            return max(maxUncrossedLines_rec(a,b,m-1,n), maxUncrossedLines_rec(a,b,m,n-1));
+    }
+    
+    int maxUncrossedLines(vector<int>& nums1, vector<int>& nums2) {
+        return maxUncrossedLines_rec(nums1, nums2, nums1.size(),nums2.size());
+    }
+};
+
+// memo code
+
+class Solution {
+public:
+    
+    int maxUncrossedLines_memo(vector<int>& a, vector<int>& b,int m,int n,vector<vector<int>>&dp)
+    {
+        if(n==0 or m==0) return dp[m][n]= 0;
+        
+        if(dp[m][n]!=-1) return dp[m][n];
+        
+        if(a[m-1]==b[n-1])
+            return dp[m][n]= maxUncrossedLines_rec(a,b,m-1,n-1,dp)+1;
+        else
+            return dp[m][n]=max(maxUncrossedLines_memo(a,b,m-1,n,dp), maxUncrossedLines_memo(a,b,m,n-1,dp));
+    }
+    
+    int maxUncrossedLines(vector<int>& nums1, vector<int>& nums2) {
+        
+        vector<vector<int>>dp(nums1.size()+1, vector<int>(nums2.size()+1,-1));
+        return maxUncrossedLines_memo(nums1, nums2, nums1.size(),nums2.size(),dp);
+    }
+};
+
+// tabu code
+
+class Solution {
+public:
+    
+    int maxUncrossedLines_tabu(vector<int>& a, vector<int>& b,int m,int n,vector<vector<int>>&dp)
+    { 
+        // initialization 
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0 or j==0)
+                    dp[i][j]=0;
+            }
+        }
+        
+        // main dp 
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(a[i-1]==b[j-1])
+                    dp[i][j]=dp[i-1][j-1]+1;
+                else
+                    dp[i][j]=max(dp[i-1][j],dp[i][j-1]);
+            }
+        }
+        return dp[m][n];
+        
+    }
+    
+    int maxUncrossedLines(vector<int>& nums1, vector<int>& nums2) {
+        
+        vector<vector<int>>dp(nums1.size()+1, vector<int>(nums2.size()+1,-1));
+        return maxUncrossedLines_tabu(nums1, nums2, nums1.size(),nums2.size(),dp);
+    }
+};
