@@ -348,3 +348,40 @@ public:
         return false;
     }
 };
+
+
+// 132. Palindrome Partitioning II
+// https://leetcode.com/problems/palindrome-partitioning-ii/
+
+// rec code
+class Solution {
+public:
+    
+    bool isPalindrome(string s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s[i]!=s[j]) return false;
+            i++;
+            j--;
+        }
+        return true;
+    }
+    
+    int minCut_rec(string s,int i,int j)
+    {
+        if(i>=j) return 0;
+        if(isPalindrome(s,i,j)) return 0;
+        int mini=INT_MAX;
+        
+        for(int k=i;k<=j-1;k++)
+        {
+            int tempAns=minCut_rec(s,i,k)+minCut_rec(s,k+1,j)+1;
+            mini=min(tempAns,mini);
+        }
+        return mini;
+    }
+    int minCut(string s) {
+        return minCut_rec(s,0,s.size()-1);
+    }
+};
