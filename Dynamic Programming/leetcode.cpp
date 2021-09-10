@@ -861,3 +861,129 @@ public:
         return ans;
     }
 };
+
+// 1458. Max Dot Product of Two Subsequences
+// https://leetcode.com/problems/max-dot-product-of-two-subsequences/
+// rec code
+
+class Solution {
+public:
+    int maxDotProduct_rec(vector<int>& a, vector<int>& b,int m,int n)
+    {
+        if(m==0 or n==0) return -1e8;
+        
+        int val=a[m-1]*b[n-1];
+        int op1=val+maxDotProduct_rec(a,b,m-1,n-1);
+        int op2=maxDotProduct_rec(a,b,m-1,n);
+        int op3=maxDotProduct_rec(a,b,m,n-1);
+        
+        int m1= max(op1,max(op2,op3));
+        int m2=max(val,m1);
+        return m2;
+    }
+    
+    int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
+        //vector<vector<int>> dp(nums1.size()+1, vector<int>dp(nums2.size()+1,-1));
+        int ans = maxDotProduct_rec(nums1,nums2,nums1.size(),nums2.size());
+        return ans;
+    }
+};
+
+// memo code
+
+class Solution {
+public:
+    int maxDotProduct_rec(vector<int>& a, vector<int>& b,int m,int n,vector<vector<int>>&dp)
+    {
+        if(m==0 or n==0) return dp[m][n]=-1e8;
+        
+        if(dp[m][n]!=-1e9) return dp[m][n];
+        
+        int val=a[m-1]*b[n-1];
+        int op1=val+maxDotProduct_rec(a,b,m-1,n-1,dp);
+        int op2=maxDotProduct_rec(a,b,m-1,n,dp);
+        int op3=maxDotProduct_rec(a,b,m,n-1,dp);
+        
+        int m1= max(op1,max(op2,op3));
+        int m2=max(val,m1);
+        return dp[m][n]=m2;
+    }
+    
+    int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
+        vector<vector<int>> dp(nums1.size()+1, vector<int>(nums2.size()+1,-1e9));
+        int ans = maxDotProduct_rec(nums1,nums2,nums1.size(),nums2.size(),dp);
+        return ans;
+    }
+};
+
+// tabu code
+
+class Solution {
+public:
+    int maxDotProduct_tabu(vector<int>& a, vector<int>& b,int m,int n,vector<vector<int>>&dp)
+    {
+
+        // initialization 
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0 or j==0)
+                    dp[i][j]=-1e8;
+            }
+        }
+        
+        // main dp 
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                int val=a[i-1]*b[j-1];
+                int op1=val+dp[i-1][j-1];
+                int op2=dp[i-1][j];
+                int op3=dp[i][j-1];
+                
+                int m1=max(op1,max(op2,op3));
+                int m2=max(val,m1);
+                
+                dp[i][j]=m2;
+            }
+        }
+        return dp[m][n];
+    }
+    
+    int maxDotProduct(vector<int>& nums1, vector<int>& nums2) {
+        vector<vector<int>> dp(nums1.size()+1, vector<int>(nums2.size()+1,-1e9));
+        int ans = maxDotProduct_tabu(nums1,nums2,nums1.size(),nums2.size(),dp);
+        return ans;
+    }
+};
+
+// 1658. Minimum Operations to Reduce X to Zero
+// https://leetcode.com/problems/minimum-operations-to-reduce-x-to-zero/
+// rec code 
+
+class Solution {
+public:
+    
+    int minOperations_rec(vector<int>&nums,int i,int j ,int sum,int count)
+    {
+        if(sum==0) return count;
+        if(sum<=0 or i>j) return 1e8;
+        
+        int left = minOperations_rec(nums,i+1,j,sum-nums[i],count+1);
+        int right = minOperations_rec(nums,i,j-1,sum-nums[j],count+1);
+        
+        return min(left,right);
+        
+    }
+    
+    int minOperations(vector<int>& nums, int x) {
+        int ans = minOperations_rec(nums,0,nums.size()-1,x,0);
+        
+        return (ans>=1e8)?-1 : ans;
+    }
+};
+
+// memo code 
+
