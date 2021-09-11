@@ -81,3 +81,57 @@ public:
     return ans;
     }
 };
+
+
+// Number of occurrence 
+
+class Solution{
+public:	
+	/* if x is present in arr[] then returns the count
+		of occurrences of x, otherwise returns 0. */
+	int count(int arr[], int n, int x) {
+	    // code here
+	
+    
+    int low=0;
+    int high=n-1;
+    int res1=-1;
+    while(low<=high)
+    {
+        int mid=low+(high-low)/2;
+        if(arr[mid]>x)
+            high=mid-1;
+        else if(arr[mid]<x)
+            low=mid+1;
+        else
+        {
+            res1=mid;
+            high=mid-1;
+        }
+    }
+    
+
+    // last occ
+    int res2=-1;
+    low=0;
+    high=n-1;
+    while(low<=high)
+    {
+        int mid=low+(high-low)/2;
+        if(arr[mid]>x)
+            high=mid-1;
+        else if(arr[mid]<x)
+            low=mid+1;
+        else{
+            res2=mid;
+            low=mid+1;
+        }
+    }
+    
+    int ans = res2-res1;
+    
+    if(ans) return ans;
+    else return 0;
+ 
+	}
+};
