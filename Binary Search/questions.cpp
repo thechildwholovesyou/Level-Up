@@ -18,3 +18,17 @@ int binary_search(vector<int>&nums ,int key)
     return -1;
 }
 
+
+// Order Agnostic Search 
+
+int search(vector<int>&nums, int key)
+{
+    if(nums.size()==1 and num[0]==key) return key;
+
+    if(nums[0]<nums[1])
+        return binary_search_asc(nums,key);
+    else if(nums[0]>nums[1])
+        return binary_search_desc(nums,key);
+
+    return -1; 
+}
