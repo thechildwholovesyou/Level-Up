@@ -987,3 +987,74 @@ public:
 
 // memo code 
 
+
+
+// 139. Word Break
+// https://leetcode.com/problems/word-break/
+
+// rec code 
+
+class Solution {
+public:
+    
+    bool wordBreakHelper(string s,unordered_set<string>dict)
+    {
+        if(s.size()==0)
+        {
+            return true;
+        }
+        int count=0;
+        bool ans=false;
+        for(int i=0;i<s.size();i++)
+        {
+            string pword=s.substr(0,i+1);
+            if(dict.find(pword)!=dict.end())
+            { 
+               ans=ans || wordBreakHelper(s.substr(i+1),dict);
+                
+            }
+        }
+        return ans;
+    }
+    
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string> dict;
+        for(auto ele: wordDict)
+        {
+            dict.insert(ele);
+        }
+       return wordBreakHelper(s,dict);
+        
+    }
+};
+
+// tabu code 
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        unordered_set<string>st;
+        int len=0,n=s.length();
+        for(string &ss: wordDict){
+            st.insert(ss);
+            int l=ss.length();
+             len=max(len,l);
+        }
+        
+       vector<int>dp(n+1);
+        dp[0]=true;
+        for(int i=0;i<=n;i++){
+          if(!dp[i])continue;
+          for(int l=1;l<=len and i+l<=n;l++){
+              string str=s.substr(i,l);
+               //cout<<str<<endl;
+              if(st.find(str) != st.end()) {
+                  dp[i+l]=true;
+                  
+              }
+          }  
+        }
+        
+        return dp[n];
+    }
+};
