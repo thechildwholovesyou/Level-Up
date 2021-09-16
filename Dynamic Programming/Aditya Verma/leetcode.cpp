@@ -776,3 +776,40 @@ public:
         return minPathSum_rec(grid,0,0);
     }
 };
+
+// memo 
+
+class Solution {
+public:
+    
+    int minPathSum_memo(vector<vector<int>>& grid, int i,int j,vector<vector<int>>&dp)
+    {
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        if(i==m-1 and j==n-1)
+            return grid[i][j];
+        
+        if(i>=m or j>=n)
+            return INT_MAX;
+        
+        if(dp[i][j]!=-1)
+            return dp[i][j];
+        
+        int op1= minPathSum_memo(grid,i+1,j,dp);
+        int op2= minPathSum_memo(grid,i,j+1,dp);
+        
+        int ans =min(op1, op2)+grid[i][j];
+        dp[i][j]=ans;
+        return dp[i][j];
+    }
+    
+    int minPathSum(vector<vector<int>>& grid) {
+        int m=grid.size();
+        int n=grid[0].size();
+        if(m==1 and n==1)
+            return grid[0][0];
+        vector<vector<int>>dp(grid.size()+1, vector<int>(grid[0].size()+1,-1));
+        return minPathSum_memo(grid,0,0,dp);
+    }
+};
