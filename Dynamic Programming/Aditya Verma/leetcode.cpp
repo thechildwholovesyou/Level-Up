@@ -813,3 +813,40 @@ public:
         return minPathSum_memo(grid,0,0,dp);
     }
 };
+
+// 646. Maximum Length of Pair Chain
+
+class Solution {
+public:
+    
+    int lengthOfLIS_tabu(vector<vector<int>>& nums,vector<int>&dp)
+    {
+        int maxLen=1;
+        for(int i=0;i<nums.size();i++)
+        {
+             dp[i]=1; // kyoki har ek number lis hoat h 
+            for(int j=0;j<i;j++)
+            {
+                if(nums[i][0]>nums[j][1])
+                {
+                    dp[i]=max(dp[i],dp[j]+1);
+                }
+            }
+            maxLen = max(dp[i],maxLen);
+        }
+        return maxLen;
+        
+    }
+    
+    int findLongestChain(vector<vector<int>>& pairs) {
+       
+        if(pairs.size()==0) return 0;
+        
+        sort(pairs.begin(),pairs.end());
+        vector<int>dp(pairs.size()+1);
+        
+        int ans = lengthOfLIS_tabu(pairs, dp);
+        return ans;
+        
+    }
+};
