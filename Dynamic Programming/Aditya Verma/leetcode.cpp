@@ -746,3 +746,33 @@ public:
         return minCut_memo_opti(s,0,s.size()-1,dp);
     }
 };
+
+
+// 64. Minimum Path Sum
+// https://leetcode.com/problems/minimum-path-sum/
+// rec 
+
+class Solution {
+public:
+    
+    int minPathSum_rec(vector<vector<int>>& grid,int r,int c)
+    {
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        if(r==m-1 and c==n-1)
+            return grid[r][c];
+        if(r>=m or c>=n)
+            return INT_MAX;
+        
+        int op1=minPathSum_rec(grid, r+1,c);
+        int op2=minPathSum_rec(grid, r, c+1);
+        
+        int ans = min(op1, op2)+grid[r][c];
+        return ans;
+    }
+    
+    int minPathSum(vector<vector<int>>& grid) {
+        return minPathSum_rec(grid,0,0);
+    }
+};
