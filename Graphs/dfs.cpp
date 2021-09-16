@@ -4,7 +4,7 @@ void dfs_helper(int node, vector<int>&vis, vector<int> adj[], vector<int>&storeD
     vis[node]=1;
     for(auto ele: adj[node])
     {
-        is(!vis[ele])
+        if(!vis[ele])
             dfs(ele, vis, adj,storeDfs);
     }
 }
