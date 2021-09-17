@@ -1058,3 +1058,44 @@ public:
         return dp[n];
     }
 };
+
+
+// 403. Frog Jump
+// https://leetcode.com/problems/frog-jump/
+
+class Solution {
+public:
+    
+    bool canCross_helper(vector<int>& stones)
+    {
+        unordered_map<int,unordered_set<int>> m;
+        for(auto ele: stones)
+            m[ele]={};
+        
+        m[0].insert(1);
+        
+        for(int i=0;i<stones.size();i++)
+        {
+            int currStone = stones[i];
+            unordered_set<int> jumps = m[currStone];
+            for(auto jump: jumps)
+            {
+                int pos = currStone + jump;
+                if(pos ==stones[stones.size()-1]) return true;
+                if(m.find(pos)!=m.end())
+                {
+                    if(jump-1>0)
+                        m[pos].insert(jump-1);
+                    m[pos].insert(jump);
+                    m[pos].insert(jump+1);
+                }
+            }
+        }
+        return false;
+        
+    }
+    
+    bool canCross(vector<int>& stones) {
+        return canCross_helper(stones);
+    }
+};
