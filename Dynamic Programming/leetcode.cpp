@@ -1099,3 +1099,66 @@ public:
         return canCross_helper(stones);
     }
 };
+
+
+
+// 688. Knight Probability in Chessboard
+// https://leetcode.com/problems/knight-probability-in-chessboard/
+
+class Solution {
+public:
+    
+    bool isSafe(int n,int r,int c)
+    {
+        if(r<0 or r>=n or c<0 or c>=n) return false;
+        return true;
+    }
+    
+    double knightProbability_rec(int n, int k, int row, int col,vector<vector<int>>&dir)
+    {
+        
+        if(isSafe(n,row,col)==false) return 0; 
+        if(k==0) return 1;
+        double probability = 0;
+        for(int i=0;i<dir.size();i++)
+        {
+            probability+=knightProbability_rec(n,k-1,row+dir[i][0],col+dir[i][1],dir)/8.0;
+        }
+        
+        return probability;
+    }
+    
+    double knightProbability(int n, int k, int row, int col) {
+        vector<vector<int>> dir={{-2,-1},{-1,-2},{1,-2},{2,-1},{2,1},{1,2},{-1,2},{-2,1}};
+        
+        return knightProbability_rec(n,k,row,col,dir);
+    }
+};
+
+
+// 354. Russian Doll Envelopes
+
+// https://leetcode.com/problems/russian-doll-envelopes/
+
+class Solution {
+public:
+    int maxEnvelopes(vector<vector<int>>& envelopes) {
+        int n=envelopes.size();
+        if (envelopes.empty()) return 0;
+        sort(envelopes.begin(),envelopes.end());
+        vector<int>dp(n,0);
+        int maxLen = 0 ;  
+         for (int i = 0; i < n; i++) {
+            dp[i] = 1;
+            for (int j = 0; j <i; j++) {
+                if (envelopes[i][0] > envelopes[j][0] && envelopes[i][1] > envelopes[j][1]) {
+                    dp[i] = max(dp[i], dp[j] + 1);
+                }
+            }
+            maxLen = max(dp[i], maxLen);
+        }
+
+        return maxLen;
+        
+    }
+};
