@@ -125,3 +125,22 @@ void exactlyOneChild(TreeNode* root, vector<int>&ans)
     exactlyOneChild(root, ans);
 }
 
+// Node to root Path => leetcode pe nhi h 
+
+bool rootToNodePath(TreeNode* root, int data, vector<int>&ans)
+{
+    if(root==NULL) return false;
+    if(node->val==data)
+    {
+        ans.push_back(node->val);
+        return true;
+    }
+    bool res= rootToNodePath(root->left,data,ans) || rootToNodePath(root->right,data,ans);
+
+    if(res)
+    {
+        ans.push_back(node->val);
+    }
+    return res;
+}
+
