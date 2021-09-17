@@ -1162,3 +1162,32 @@ public:
         
     }
 };
+
+// 
+
+// rec
+
+class Solution {
+public:
+    
+    int solve(int e,int f)
+    {
+        // base condition 
+        if(f==1 or f==1) return f;
+        if(e==1) return f;
+        
+        int mini=INT_MAX;
+        
+        for(int k=1;k<f;k++)
+        {
+            int temp=1+max(solve(e-1,k-1),solve(e,f-k));
+            
+            mini=min(temp, mini);
+        }
+        return mini;
+    }
+    
+    int twoEggDrop(int n) {
+        return solve(2,n);
+    }
+};
