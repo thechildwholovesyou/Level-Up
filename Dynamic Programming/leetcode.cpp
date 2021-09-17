@@ -1173,7 +1173,7 @@ public:
     int solve(int e,int f)
     {
         // base condition 
-        if(f==1 or f==1) return f;
+        if(f==0 or f==1) return f;
         if(e==1) return f;
         
         int mini=INT_MAX;
@@ -1189,5 +1189,52 @@ public:
     
     int twoEggDrop(int n) {
         return solve(2,n);
+    }
+};
+
+// memo 
+class Solution {
+public:
+    
+    int dp[3][1001];
+    int egg(int n , int k){
+        if(k==0 || k==1){
+            dp[n][k] = k;
+            return k;
+        }
+        if(n==1){
+            dp[n][k] = 1;
+            return k;
+        }
+        
+        if(dp[n][k]!=-1) return dp[n][k];
+        
+        int ans=  INT_MAX;
+        for(int i = 1;i<=k;i++){
+            
+            int a,b;
+            // if(dp[n-1][i-1]!=-1){
+            //     a = dp[n-1][i-1];
+            // }else{
+                a = egg(n-1, i-1);
+          //  }
+            
+            if(dp[n][k-i]!=-1){
+                b = dp[n][k-i];
+            }else{
+                b = egg(n, k-i);
+            }
+            
+            int t = 1 + max(a, b);
+            ans = min(ans, t);
+        }
+        return dp[n][k] =  ans;
+        
+    }
+    
+    
+    int twoEggDrop(int n) {
+        memset(dp , -1, sizeof(dp));
+        return egg(2 , n);
     }
 };
