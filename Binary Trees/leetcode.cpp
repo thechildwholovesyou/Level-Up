@@ -85,3 +85,43 @@ public:
         return countNodes(root->left)+countNodes(root->right)+1;
     }
 };
+
+// find data in  a binaty tree => leetcode pe nhi h 
+
+class Solution {
+public:
+    bool find(TreeNode* root,key) {
+        if(root==NULL) return false;
+        if(root->val == key)
+            return true;
+
+        return find(root->left,key) or find(root->right,key);
+    }
+};
+
+// Count Leaves in Binary Tree
+// https://practice.geeksforgeeks.org/problems/count-leaves-in-binary-tree/1
+
+int countLeaves(Node* root)
+{
+  // Your code here
+  if(root==NULL) return 0;
+  if(root->left ==NULL && root->right==NULL) return 1;
+  int ll=countLeaves(root->left);
+  int rl=countLeaves(root->right);
+  return ll+rl;
+}
+
+// Print the nodes having exactly one child in a binary tree =>leetcode pe nhi h 
+
+void exactlyOneChild(TreeNode* root, vector<int>&ans)
+{
+    if(root==NULL or(root->left==NULL and root->right==NULL)) return;
+
+    if(root->left==NULL or root->right==NULL)
+        ans.push_back(root->val);
+
+    exactlyOneChild(root, ans);
+    exactlyOneChild(root, ans);
+}
+
