@@ -429,3 +429,41 @@ public:
         return root;
     }
 };
+
+//  Binary Tree Zigzag Level Order Traversal
+// https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+class Solution {
+    public List<List<Integer>> zigzagLevelOrder(TreeNode root) {
+         List<List<Integer>> v=new ArrayList<>();
+        
+        if(root==null) return v;
+        
+        Queue<TreeNode> q=new LinkedList<>();
+        q.add(root);
+        
+        boolean f=false;
+        
+        while(!q.isEmpty())
+        {
+            int size=q.size();
+            List<Integer> t=new ArrayList<>();
+            while(size-- >0)
+            {
+                TreeNode temp=q.poll();
+                
+                t.add(temp.val);
+                
+               if(temp.left!=null)
+                   q.add(temp.left);
+                if(temp.right!=null)
+                   q.add(temp.right);
+                
+            }
+            if(f==true) Collections.reverse(t);
+            f=!f;
+            v.add(t);
+        }
+        return v;
+    }
+}
