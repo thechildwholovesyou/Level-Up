@@ -356,3 +356,40 @@ public:
         return ans;
     }
 };
+
+// 116. Populating Next Right Pointers in Each Node
+
+// https://leetcode.com/problems/populating-next-right-pointers-in-each-node/
+
+class Solution {
+public:
+    Node* connect(Node* root) {
+        
+        queue<Node*> q;
+        Node* nextP=NULL;
+        if(root==NULL) return root;
+        q.push(root);
+       
+        
+        while(q.size() >0)
+        {
+            int size=q.size();
+            while(size--)
+            {
+                Node* temp=q.front();
+                q.pop();
+                temp->next=nextP;
+                nextP=temp;
+                
+                if(temp->right!=NULL)
+                    q.push(temp->right);
+                if(temp->left!=NULL)
+                    q.push(temp->left);
+                
+            }
+             nextP=NULL;
+           
+        }
+        return root;
+    }
+};
