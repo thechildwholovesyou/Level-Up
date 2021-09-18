@@ -202,3 +202,38 @@ public:
         
     }
 };
+
+// optimised
+
+class Solution {
+public:
+    pair<int,bool> isBalancedHelper(TreeNode* root)
+    {
+       if(root==NULL) {return {-1,true};}
+        
+        pair<int,bool> lpair=isBalancedHelper(root->left);
+        if((lpair.second)==false) return lpair;
+        
+        pair<int,bool> rpair=isBalancedHelper(root->right);
+        if((rpair.second)==false) return rpair;
+        
+        pair<int,bool> ans;
+        
+        if(abs(lpair.first - rpair.first)>1)
+        {
+            // ans.second=false;
+            return ans;
+        }
+        ans.second=true;
+        
+        ans.first = max(lpair.first , rpair.first )+1;
+        
+        return ans;
+        
+        
+    }
+    bool isBalanced(TreeNode* root) {
+        pair<int,bool> ans=isBalancedHelper(root);
+        return ans.second;
+    }
+};
