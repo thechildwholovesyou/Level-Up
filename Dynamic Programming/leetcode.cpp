@@ -1460,3 +1460,76 @@ public:
         
     }
 };
+
+// 494. Target Sum
+// https://leetcode.com/problems/target-sum/
+
+// rec code
+
+class Solution {
+public:
+
+    
+    int findTargetSumWays_rec(vector<int>&nums, int ans, int n,int sum)
+    {
+        if(n==0 and ans==sum) return 1;
+        if(n==0) return 0;
+        
+        int count=0;
+        count+=findTargetSumWays_rec(nums, ans-nums[n-1],n-1,sum);
+        count+=findTargetSumWays_rec(nums,ans+nums[n-1],n-1,sum);
+        
+        return count;
+    }
+            
+    int findTargetSumWays(vector<int>& nums, int target) {
+       
+        return findTargetSumWays_rec(nums,0,nums.size(), target);
+    }
+};
+
+// 698. Partition to K Equal Sum Subsets
+// https://leetcode.com/problems/partition-to-k-equal-sum-subsets/
+class Solution {
+public:
+    bool helper(vector<int>&nums, int idx ,int sum,int target,vector<bool>&vis,int k)
+    {
+        if(k==1) return true;
+        if(sum==target)
+            return helper(nums, 0,0,target,vis,k-1 );
+        
+        for(int i=idx;i<nums.size();i++)
+        {
+            if(!vis[i])
+            {
+                vis[i]=true;
+                bool recAns = helper(nums, i+1, sum+nums[i],target, vis, k);
+                if(recAns)
+                    return true;
+                vis[i]=false;
+            }
+        }
+        return false;
+    }
+    
+    bool canPartition(vector<int>& nums, int k)
+    {
+        int n=nums.size();
+        if(k>n) return false;
+        if(k==1) return true;
+        int sum=0;
+        for(auto ele:nums)
+            sum+=ele;
+        if(sum%k!=0) return false;
+        
+        int s=sum/k;
+        
+        vector<bool>vis(nums.size()+1, false);
+        return helper(nums,0,0,s,vis,k);
+    }
+    
+    bool canPartitionKSubsets(vector<int>& nums, int k) {
+        return canPartition(nums,k);
+        
+    }
+};
