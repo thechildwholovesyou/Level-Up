@@ -144,3 +144,31 @@ bool rootToNodePath(TreeNode* root, int data, vector<int>&ans)
     return res;
 }
 
+
+// 98. Validate Binary Search Tree
+// https://leetcode.com/problems/validate-binary-search-tree/
+
+// using static variable
+
+class Solution {
+public:
+    
+     TreeNode* prev=NULL;
+    
+    bool isValidBST(TreeNode* root) {
+        if(root==NULL) return true;
+        if(!isValidBST(root->left)) return false;
+        
+        if(prev!=NULL and prev->val >= root->val) return false;
+        
+        prev=root;
+        
+        if(!isValidBST(root->right)) return false;
+        
+        return true;
+    }
+};
+
+// without using static variabe
+
+
