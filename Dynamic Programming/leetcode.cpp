@@ -1533,3 +1533,40 @@ public:
         
     }
 };
+
+// 576. Out of Boundary Paths
+// https://leetcode.com/problems/out-of-boundary-paths/
+
+class Solution {
+       int dp[50][50][51];
+       int mod = 1e9+7;
+       int dx[4] = {-1,0,1,0};
+       int dy[4] = {0,-1,0,1};
+    public:
+    int find(int m,int n,int k,int r,int c){
+        if(r<0 || c<0 || r>=m || c>=n ){ 
+            return 1;
+        }
+        
+        if(k == 0){
+            return 0;
+        }
+         if(dp[r][c][k]!=-1)
+        {
+            return dp[r][c][k];
+        }
+        int sum = 0;
+        
+        for(int i=0;i<4;i++){
+            int x = r + dx[i];
+            int y = c + dy[i];
+            sum = (sum + find(m,n,k-1,x,y))%mod;
+        }
+
+         return dp[r][c][k] = sum;
+    }
+    int findPaths(int m, int n, int M, int r, int c) {
+        memset(dp,-1,sizeof(dp));
+        return find(m,n,M,r,c);
+    }
+};
