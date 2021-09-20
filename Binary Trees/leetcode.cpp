@@ -489,3 +489,24 @@ public:
         return v;
     }
 };
+
+// 589. N-ary Tree Preorder Traversal
+// https://leetcode.com/problems/n-ary-tree-preorder-traversal/
+
+class Solution {
+public:
+    
+    void preorder_helper(Node* root, vector<int>&v)
+    {
+        if(root==NULL) return;
+        v.push_back(root->val);
+        for(Node* child: root->children)
+            preorder_helper(child, v);
+    }
+    
+    vector<int> preorder(Node* root) {
+       vector<int> v;
+        preorder_helper(root, v);
+        return v;
+    }
+};
