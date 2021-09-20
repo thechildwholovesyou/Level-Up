@@ -170,3 +170,33 @@ int main()
     }
     return 0;
 }
+
+// K closest elements
+// https://practice.geeksforgeeks.org/problems/k-closest-elements3619/1
+
+class Solution{   
+public:
+    vector<int> printKClosest(vector<int> arr, int n, int k, int x) {
+        // code here
+       priority_queue<pair<int,int>> pq;
+       for(auto ele: arr)
+       {
+           pq.push({abs(ele-x),ele});
+           
+           if(pq.size()>k)
+           {
+               pq.pop();
+           }
+       }
+       vector<int> ans;
+       while(!pq.empty())
+       {
+           ans.push_back(pq.top().second);
+           pq.pop();
+       }
+      sort(ans.begin(),ans.end());
+       
+       return ans;
+        
+    }
+};
