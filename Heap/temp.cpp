@@ -117,3 +117,56 @@ public:
         return v;
     }
 };
+
+// Nearly Sorted Algorithm 
+// https://practice.geeksforgeeks.org/problems/nearly-sorted-algorithm/0#
+
+#include<bits/stdc++.h>
+using namespace std;
+
+vector<int>  sortKsorted(vector<int>&v, int k)
+{
+    priority_queue<int,vector<int>,greater<int>>pq;
+    vector<int>ans;
+    for(auto ele: v)
+    {
+        pq.push(ele);
+        if(pq.size()>k)
+        {
+            ans.push_back(ele);
+            pq.pop();
+        }
+    }
+    while(!pq.empty())
+    {
+        ans.push_back(pq.top());
+        pq.pop();
+    }
+    return ans;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        vector<int> v;
+        for(int i=0;i<n;i++)
+        {
+            int data;
+            cin>>data;
+            v.push_back(data);
+        }
+        int k;
+        cin>>k;
+        
+        vector<int> ans = sortKsorted(v,k);
+        for(auto ele: ans)
+            cout<<ele<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
