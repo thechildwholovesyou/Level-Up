@@ -510,3 +510,37 @@ public:
         return v;
     }
 };
+
+// 429. N-ary Tree Level Order Traversal
+// https://leetcode.com/problems/n-ary-tree-level-order-traversal/
+class Solution {
+public:
+    vector<vector<int>> levelOrder(Node* root) {
+         vector<vector<int>> v;
+        queue<Node*> q;
+        if(root==NULL) return v;
+        q.push(root);
+       
+        
+        while(q.size() >0)
+        {
+            int size=q.size();
+            
+            vector<int> t;
+            while(size--)
+            {
+                Node* temp=q.front();
+                q.pop();
+                t.push_back(temp->val);
+                
+                
+               for(Node* child: temp->children)
+                   q.push(child);
+                
+            }
+            v.push_back(t);
+            
+        }
+        return v;
+    }
+};
