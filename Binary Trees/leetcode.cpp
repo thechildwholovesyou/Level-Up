@@ -467,3 +467,25 @@ class Solution {
         return v;
     }
 }
+
+// 590. N-ary Tree Postorder Traversal
+// https://leetcode.com/problems/n-ary-tree-postorder-traversal/
+
+class Solution {
+public:
+    
+    void postorder_helper(Node* root, vector<int>&v)
+    {
+        if(root==NULL) return;
+        
+        for(Node* child: root->children)
+            postorder_helper(child,v);
+        v.push_back(root->val);
+    }
+    
+    vector<int> postorder(Node* root) {
+        vector<int> v;
+        postorder_helper(root, v);
+        return v;
+    }
+};
