@@ -224,3 +224,35 @@ public:
         return ans;
     }
 };
+
+// 1046. Last Stone Weight
+// https://leetcode.com/problems/last-stone-weight/
+ class Solution {
+public:
+    int lastStoneWeight(vector<int>& stones) {
+        priority_queue<int> pq;
+        for(auto ele: stones)
+        {
+            pq.push(ele);
+        }
+        int first, second ;
+        int size=pq.size();
+        while(size>1)
+        {
+            first = pq.top();
+            pq.pop();
+            second =pq.top();
+            pq.pop();
+            size-=2;
+            
+            if(first -second >0)
+            {
+                pq.push(first-second);
+                size+=1;
+            }
+            
+        }
+        if(!pq.empty()) return pq.top();
+        return 0;
+    }
+};
