@@ -88,3 +88,32 @@ class Solution
         return v;
     }
 };
+
+// 973. K Closest Points to Origin
+// https://leetcode.com/problems/k-closest-points-to-origin/
+class Compare{
+    public:
+    bool operator()(const vector<int>&v1, const vector<int>&v2)
+    {
+        return (v1[0] * v1[0] + v1[1] * v1[1]) > (v2[0] * v2[0] + v2[1] * v2[1]);
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        priority_queue <vector<int>, vector<vector<int>>, Compare > p;
+        
+        for(auto ele:points)
+            p.push(ele);
+        
+        vector<vector<int>> v;
+        
+        while(k--)
+        {
+            v.push_back(p.top());
+            p.pop();
+        }
+        return v;
+    }
+};
