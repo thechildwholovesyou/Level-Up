@@ -63,3 +63,24 @@ public:
     }
 };
 
+// 112. Path Sum112. Path Sum
+// https://leetcode.com/problems/path-sum/
+
+class Solution {
+public:
+    bool hasPathSum(TreeNode* root, int targetSum) {
+        if(root==NULL) return false;
+        
+        if(root->left==NULL and root->right==NULL)
+        {
+            if(targetSum-root->val==0) return true;
+            return false;
+        }
+        
+        bool left=hasPathSum(root->left,targetSum-root->val);
+        bool right=hasPathSum(root->right, targetSum-root->val);
+        
+        bool ans = left or right;
+        return ans;
+    }
+};
