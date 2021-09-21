@@ -84,3 +84,42 @@ public:
         return ans;
     }
 };
+
+// 113. Path Sum II
+// https://leetcode.com/problems/path-sum-ii/
+
+class Solution {
+public:
+    
+    int helper(TreeNode* root,int target,vector<int>&smallAns, vector<vector<int>>&bigAns)
+    {
+        if(root==NULL) return 0;
+        smallAns.push_back(root->val);
+        
+        if(root->left==NULL and root->right==NULL and target-root->val==0)
+        {
+           bigAns.push_back(smallAns);
+            smallAns.pop_back();
+            return 1;
+        }
+        
+        int count =0;
+        
+        count+=helper(root->left, target-root->val, smallAns,bigAns);
+        count+=helper(root->right,  target-root->val, smallAns , bigAns);
+        smallAns.pop_back();
+        
+        return count;
+    }
+    
+    vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
+        vector<int>smallAns;
+        vector<vector<int>>bigAns;
+        
+        
+        
+        int ans = helper(root, targetSum, smallAns, bigAns);
+        cout<<ans;
+        return bigAns;
+    }
+};
