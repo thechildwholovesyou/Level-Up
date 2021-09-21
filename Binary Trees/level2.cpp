@@ -183,3 +183,36 @@ public:
         return helper(v, 0, v.size()-1);
     }
 };
+
+// 106. Construct Binary Tree from Inorder and Postorder Traversal
+// https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+
+
+class Solution {
+public:
+    
+    TreeNode* helper(vector<int>& inorder, vector<int>&postorder, int istart, int iend, int pstart, int pend )
+    {
+        if(istart > iend)return NULL;
+        
+        TreeNode* root= new TreeNode(postorder[pend]);
+        
+        int rootIdx=istart;
+        for(;rootIdx<=iend;rootIdx++)
+        {
+            if(inorder[rootIdx]==postorder[pend])
+                break;
+        }
+        
+        int leftTreeSize=rootIdx-istart;
+        int rightTreeSize=iend-rootIdx;
+        
+        root->left=helper(inorder, postorder, istart,rootIdx-1, pstart, pstart+leftTreeSize-1);
+        root->right=helper(inorder, postorder,rootIdx+1,iend, pend-rightTreeSize, pend-1);
+        return root;
+    }
+    
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        return helper(inorder,postorder,0,inorder.size()-1, 0,postorder.size()-1);
+    }
+};
