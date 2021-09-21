@@ -152,3 +152,34 @@ public:
         
     }
 };
+
+// 109. Convert Sorted List to Binary Search Tree
+// https://leetcode.com/problems/convert-sorted-list-to-binary-search-tree/
+
+class Solution {
+public:
+    
+    TreeNode* helper(vector<int>&nums, int start,int end)
+    {
+        if(start>end) return NULL;
+        int mid =(start + end)/2;
+        TreeNode* root= new TreeNode(nums[mid]);
+        
+        root->left =helper(nums, start,mid-1);
+        root->right=helper(nums, mid+1, end);
+        
+        return root;
+    }
+    
+    TreeNode* sortedListToBST(ListNode* head) {
+        vector<int> v;
+        ListNode* curr=head;
+        while(curr!=NULL)
+        {
+            v.push_back(curr->val);
+            curr=curr->next;
+        }
+        
+        return helper(v, 0, v.size()-1);
+    }
+};
