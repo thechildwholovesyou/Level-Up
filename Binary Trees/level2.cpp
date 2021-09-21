@@ -27,3 +27,38 @@ public:
         return cameras;
     }
 };
+
+// 979. Distribute Coins in Binary Tree
+// https://leetcode.com/problems/distribute-coins-in-binary-tree/
+
+
+class Solution {
+public:
+    
+    int moves=0;
+    
+    int dfs_helper(TreeNode* root)
+    {
+        if(root==NULL) return 0;
+        
+        int lc=dfs_helper(root->left);
+        int rc=dfs_helper(root->right);
+        
+        int coins = lc+rc;
+        
+        if(root->val==0)
+            coins-=1;
+        else if(root->val==1)
+            coins+=0;
+        else
+            coins+=root->val-1;
+        
+        moves+=abs(coins);
+        
+        return coins;
+    }
+    int distributeCoins(TreeNode* root) {
+        int coins = dfs_helper(root);
+        return moves;
+    }
+};
