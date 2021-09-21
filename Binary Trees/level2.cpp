@@ -115,11 +115,40 @@ public:
     vector<vector<int>> pathSum(TreeNode* root, int targetSum) {
         vector<int>smallAns;
         vector<vector<int>>bigAns;
-        
-        
-        
         int ans = helper(root, targetSum, smallAns, bigAns);
         cout<<ans;
         return bigAns;
+    }
+};
+
+// 437. Path Sum III
+// https://leetcode.com/problems/path-sum-iii/
+
+class Solution {
+public:
+    
+     int count =0;
+    
+    void helper(TreeNode* root, int target)
+    {
+        if(root==NULL) return ;
+        
+        if(target-root->val==0)
+            count++;
+       
+        helper(root->left ,target-root->val);
+        helper(root->right, target-root->val);
+        
+    }
+    
+    int pathSum(TreeNode* root, int targetSum) {
+        if(root==NULL) return 0;
+        
+       helper(root, targetSum);
+        pathSum(root->left,targetSum);
+        pathSum(root->right, targetSum);
+        
+        return count;
+        
     }
 };
