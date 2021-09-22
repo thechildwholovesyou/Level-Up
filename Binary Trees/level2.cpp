@@ -418,3 +418,24 @@ public:
         return sum;
     }
 };
+
+// 101. Symmetric Tree
+// https://leetcode.com/problems/symmetric-tree/
+
+class Solution {
+public:
+    bool check(TreeNode* r1, TreeNode* r2)
+    {
+        if(!r1 && !r2) return true;
+        if(!r1 || !r2) return false;
+        
+        if(r1->val !=r2->val) return false;
+        return check(r1->left,r2->right) and check(r1->right,r2->left);
+    }
+    
+    bool isSymmetric(TreeNode* root) {
+        if(!root) return true;
+        
+        return check(root->left,root->right);
+    }
+};
