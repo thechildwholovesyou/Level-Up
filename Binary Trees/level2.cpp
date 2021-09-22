@@ -439,3 +439,30 @@ public:
         return check(root->left,root->right);
     }
 };
+
+// 1448. Count Good Nodes in Binary Tre
+// https://leetcode.com/problems/count-good-nodes-in-binary-tree/
+
+class Solution {
+public:
+    
+    int preorder(TreeNode* root, int maxi)
+    {
+        if(!root) return 0;
+       int ans =0;
+        if(root->val>=maxi)
+            ans=1;
+         
+        maxi=max(maxi,root->val);
+        int left = preorder(root->left,maxi);
+        int right = preorder(root->right,maxi);
+        
+        ans+=left+right;
+        return ans;
+    }
+    
+    int goodNodes(TreeNode* root) {
+        if(!root) return 0;
+        return preorder(root, INT_MIN);
+    }
+};
