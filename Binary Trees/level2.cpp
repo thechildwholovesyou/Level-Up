@@ -466,3 +466,39 @@ public:
         return preorder(root, INT_MIN);
     }
 };
+
+// 199. Binary Tree Right Side View
+// https://leetcode.com/problems/binary-tree-right-side-view/
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+       
+        vector<int> ans;
+        queue<TreeNode*> q;
+        if(root==NULL) return ans;
+        q.push(root);
+       
+        while(q.size() >0)
+        {
+            int size=q.size();
+            
+            while(size--)
+            {
+                TreeNode* temp=q.front();
+                q.pop();
+                
+                if(size==0)
+                    ans.push_back(temp->val);
+                
+                if(temp->left!=NULL)
+                    q.push(temp->left);
+                if(temp->right!=NULL)
+                    q.push(temp->right);
+                
+            }
+            
+        }
+        return ans;
+    }
+};
