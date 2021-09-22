@@ -326,3 +326,36 @@ public:
         return min_diff;
     }
 };
+
+// 530. Minimum Absolute Difference in BST
+// https://leetcode.com/problems/minimum-absolute-difference-in-bst/
+
+
+class Solution {
+public:
+    
+     TreeNode* prev=NULL;
+    int min_diff=INT_MAX;
+    
+    void inorder(TreeNode* root)
+    {
+        if(root)
+        {
+                inorder(root->left);
+            if(prev!=NULL and abs(root->val-prev->val )<min_diff)
+            {
+                min_diff=abs(root->val - prev->val);
+            }
+            prev=root;
+            inorder(root->right);
+        }
+        
+    }
+    
+    
+    int getMinimumDifference(TreeNode* root) {
+         if(!root) return 0;
+        inorder(root);
+        return min_diff;
+    }
+};
