@@ -263,3 +263,35 @@ public:
     }
     
 };
+
+// 257. Binary Tree Paths
+// https://leetcode.com/problems/binary-tree-paths/
+
+class Solution {
+public:
+    
+    void helper(TreeNode* root, vector<string>&bigAns, string smallAns)
+    {
+        if(root->left==NULL && root->right==NULL)
+        {
+           smallAns+=to_string(root->val);
+            bigAns.push_back(smallAns);
+            return;
+        }
+         smallAns+=to_string(root->val);
+        smallAns+="->";
+        
+        if(root->left) helper(root->left,bigAns,smallAns);
+        if(root->right) helper(root->right, bigAns, smallAns);
+    }
+    
+    vector<string> binaryTreePaths(TreeNode* root) {
+        vector<string> bigAns;
+        if(!root) return bigAns;
+    
+        helper(root,bigAns, "");
+        
+        return bigAns;
+        
+    }
+};
