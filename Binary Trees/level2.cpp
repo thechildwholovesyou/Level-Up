@@ -216,3 +216,27 @@ public:
         return helper(inorder,postorder,0,inorder.size()-1, 0,postorder.size()-1);
     }
 };
+
+// 572. Subtree of Another Tree
+// https://leetcode.com/problems/subtree-of-another-tree/
+
+class Solution {
+public:
+    
+    bool helper(TreeNode* root, TreeNode* subRoot)
+    {
+        if(!root and !subRoot) return true;
+        if((root && !subRoot)||(!root && subRoot))
+            return false;
+        return root->val==subRoot->val && helper(root->left,subRoot->left) && helper(root->right, subRoot->right);
+    }
+    
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) {
+        if(root==NULL) return false;
+        if(subRoot==NULL) return true;
+        
+        if(helper(root, subRoot)) return true;
+        
+        return isSubtree(root->left , subRoot) || isSubtree(root->right, subRoot);
+    }
+};
