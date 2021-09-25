@@ -1606,3 +1606,75 @@ public:
         return solve_memo(nums,1,nums.size()-1);
     }
 };
+
+// 221. Maximal Square
+// https://leetcode.com/problems/maximal-square/
+// rec code
+
+
+
+class Solution {
+public:
+    
+    int helper(vector<vector<char>>& matrix, int i,int j)
+    {
+        if(i>=matrix.size() or j>=matrix[0].size() or matrix[i][j]=='0')
+            return 0;
+        
+        int ans =1+min(helper(matrix,i+1,j),min(helper(matrix,i+1,j+1),helper(matrix, i,j+1)));
+        return ans;
+    }
+    
+    int maximalSquare(vector<vector<char>>& matrix) {
+        
+        if(matrix.size()==0) return 0;
+        int maxArea=0;
+        int currArea=0;
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                currArea=helper(matrix,i,j);
+                maxArea=max(currArea, maxArea);
+            }
+        }
+        return maxArea*maxArea;
+    }
+};
+
+
+// dp code
+
+class Solution {
+public:
+    
+    int helper(vector<vector<char>>& matrix, int i,int j,vector<vector<int>>&dp)
+    {
+        if(i>=matrix.size() or j>=matrix[0].size())
+            return 0;
+        if(matrix[i][j]=='0') return dp[i][j]=0;
+        
+        if(dp[i][j]!=-1) return dp[i][j];
+        
+        
+        int ans =1+min(helper(matrix,i+1,j,dp),min(helper(matrix,i+1,j+1,dp),helper(matrix, i,j+1,dp)));
+        return dp[i][j]=ans;
+    }
+    
+    int maximalSquare(vector<vector<char>>& matrix) {
+        
+        if(matrix.size()==0) return 0;
+        vector<vector<int>>dp(matrix.size()+1, vector<int>(matrix[0].size()+1,-1));
+        int maxArea=0;
+        int currArea=0;
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                currArea=helper(matrix,i,j,dp);
+                maxArea=max(currArea, maxArea);
+            }
+        }
+        return maxArea*maxArea;
+    }
+};
