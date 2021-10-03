@@ -128,3 +128,27 @@ public:
     }
 };
 
+// 20. Valid Parentheses
+// https://leetcode.com/problems/valid-parentheses/
+
+class Solution {
+public:
+    stack<char> st;
+    bool isValid(string s) {
+        for(int i=0;i<s.size();i++)
+        {
+            if(st.empty() or s[i]=='(' or s[i]=='{' or s[i]=='[')
+                st.push(s[i]);
+            else if(s[i]==')' and st.top()=='(')
+                st.pop();
+            else if(s[i]==']' and st.top()=='[')
+                st.pop();
+            else if(s[i]=='}' and st.top()=='{')
+                st.pop();
+            else
+                st.push(s[i]);
+        }
+        if(st.empty()) return true;
+        return false;
+    }
+};
