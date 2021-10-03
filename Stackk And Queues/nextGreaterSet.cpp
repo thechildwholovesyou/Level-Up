@@ -79,3 +79,31 @@ public:
     return ans;
     }
 };
+
+// Stock span problem 
+// https://practice.geeksforgeeks.org/problems/stock-span-problem-1587115621/1
+
+class Solution
+{
+    public:
+    //Function to calculate the span of stockâ€™s price for all n days.
+    vector <int> calculateSpan(int arr[], int n)
+    {
+       // Your code here
+       vector<int> ans(n);
+       stack<int> s;
+       
+       s.push(-1);
+       for(int i=0;i<n;i++)
+       {
+           while(s.top()!=-1 and arr[s.top()]<=arr[i])
+           {
+               s.pop();
+           }
+           ans[i]=i-s.top();
+           s.push(i);
+       }
+       return ans;
+       
+    }
+};
