@@ -107,3 +107,24 @@ class Solution
        
     }
 };
+
+// 901. Online Stock Span
+// https://leetcode.com/problems/online-stock-span/
+
+class StockSpanner {
+public:
+    stack<pair<int,int>> s;
+    int day=0;
+    StockSpanner() {
+        s.push({-1,-1});
+    }
+    
+    int next(int price) {
+        while(s.top().first!=-1 and s.top().second <=price)
+            s.pop();
+        int span=day-s.top().first;
+        s.push({day++, price});
+        return span;
+    }
+};
+
