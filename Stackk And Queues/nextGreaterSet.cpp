@@ -174,3 +174,39 @@ public:
     }
 };
 
+// 735. Asteroid Collision
+// https://leetcode.com/problems/asteroid-collision/
+
+class Solution {
+public:
+    vector<int> asteroidCollision(vector<int>& arr) {
+        int n=arr.size();
+        vector<int> ans;
+        stack<int> s;
+        for(int i=0;i<arr.size();i++)
+        {
+            if(arr[i]>0)
+            {
+                s.push(arr[i]);
+                continue;
+            }
+            while(s.size()!=0 and s.top()>0 and s.top()<abs(arr[i]))
+                s.pop();
+            if(s.size()!=0 and s.top()==abs(arr[i])) s.pop();
+            else if(s.size()==0  or s.top()<0){
+                s.push(arr[i]);
+            }
+            else
+            {
+                // nothing to do 
+            }
+        }
+        while(!s.empty())
+        {
+            ans.push_back(s.top());
+            s.pop();
+        }
+         reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
