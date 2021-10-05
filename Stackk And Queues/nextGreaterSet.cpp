@@ -210,3 +210,25 @@ public:
         return ans;
     }
 };
+
+// 946. Validate Stack Sequences
+// https://leetcode.com/problems/validate-stack-sequences/
+
+class Solution {
+public:
+    bool validateStackSequences(vector<int>& pushed, vector<int>& popped) {
+        stack<int> s;
+        int i=0;
+        for(auto ele: pushed)
+        {
+            s.push(ele);
+            while(!s.empty() and s.top()==popped[i])
+            {
+                s.pop();
+                i++;
+            }
+        }
+        if(!s.size()) return true;
+        return false;
+    }
+};
