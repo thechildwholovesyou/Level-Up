@@ -232,3 +232,28 @@ public:
         return false;
     }
 };
+
+// 856. Score of Parentheses
+// https://leetcode.com/problems/score-of-parentheses/
+// ye wala sol clear nhi h abhi mera
+class Solution {
+public:
+    int scoreOfParentheses(string str) {
+        stack<int> s;
+        int curr=0;
+        for(auto ele: str)
+        {
+            if(ele=='(')
+            {
+                s.push(curr);
+                curr=0;
+            }
+            else
+            {
+                curr+=s.top()+ max(curr, 1);
+                s.pop();
+            }
+        }
+        return curr;
+    }
+};
