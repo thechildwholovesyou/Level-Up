@@ -45,3 +45,5 @@ int main(){
 	
 	return 0;
 }
+
+// ye clg me aaya aaj bc
