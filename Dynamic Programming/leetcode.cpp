@@ -1678,3 +1678,29 @@ public:
         return maxArea*maxArea;
     }
 };
+
+// 1277. Count Square Submatrices with All Ones
+// https://leetcode.com/problems/count-square-submatrices-with-all-ones/
+
+class Solution {
+public:
+    int helper(vector<vector<int>>& matrix,int i,int j)
+    {
+        if(i>=matrix.size() or j>=matrix[0].size() or matrix[i][j]==0)
+            return 0;
+        int ans=1+min(helper(matrix, i+1,j),min(helper(matrix, i+1,j+1),helper(matrix,i,j+1)));
+        return ans;
+    }
+    int countSquares(vector<vector<int>>& matrix) {
+        if(matrix.size()==0) return 0;
+        int cnt=0;
+        for(int i=0;i<matrix.size();i++)
+        {
+            for(int j=0;j<matrix[0].size();j++)
+            {
+                cnt+=helper(matrix,i,j);
+            }
+        }
+        return cnt;
+    }
+};
