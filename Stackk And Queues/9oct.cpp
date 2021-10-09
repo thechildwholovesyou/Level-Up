@@ -48,7 +48,7 @@ public:
     }
 };
 
-// sir wala method ... vector se
+// sir wala method ... vector se // observe krna TC (ye wala better hai)
 
 class Solution {
 public:
@@ -82,6 +82,42 @@ public:
         
         if(ans=="")
             ans+="0";
+        return ans;
+    }
+};
+ 
+// 316. Remove Duplicate Letters
+// https://leetcode.com/problems/remove-duplicate-letters/
+
+class Solution {
+public:
+    string removeDuplicateLetters(string s) {
+        int n=s.size();
+        vector<bool> vis(26,false);
+        vector<int> freq(26,0);
+        vector<char> stk;
+        
+        for(int i=0;i<n;i++)
+        {
+           freq[s[i]-'a']++;
+        }
+        for(int i=0;i<n;i++)
+        {
+            char ele=s[i];
+            freq[ele-'a']--;
+            if(vis[ele-'a'])
+                continue;
+            while(stk.size()!=0 and stk[stk.size()-1] > ele and freq[stk[stk.size()-1] -'a']>0)
+            {
+                vis[stk[stk.size()-1] -'a']=false;
+                stk.pop_back();
+            }
+            vis[ele-'a']=true;
+            stk.push_back(ele);
+        }
+        string ans="";
+        for(auto ele:stk)
+            ans+=ele;
         return ans;
     }
 };
