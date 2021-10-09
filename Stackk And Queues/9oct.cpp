@@ -47,3 +47,41 @@ public:
         return ans;
     }
 };
+
+// sir wala method ... vector se
+
+class Solution {
+public:
+    string removeKdigits(string num, int k) {
+        vector<char> stk;
+        for(auto ele: num)
+        {
+            while(k and stk.size()!=0 and (int)(stk[stk.size()-1]) > (int)ele)
+            {
+                k--;
+                stk.pop_back();
+            }
+            stk.push_back(ele);
+        }
+        if(k)
+        {
+            while(k--)
+            {
+                stk.pop_back();
+            }
+        }
+        
+        string ans="";
+        bool nonZero=false;
+        for(auto ele: stk)
+        {
+            if(ele=='0' and !nonZero) continue;
+            nonZero=true;
+            ans+=ele;
+        }
+        
+        if(ans=="")
+            ans+="0";
+        return ans;
+    }
+};
