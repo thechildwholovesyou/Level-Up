@@ -121,3 +121,39 @@ public:
         return ans;
     }
 };
+
+// 1081. Smallest Subsequence of Distinct Characters
+// https://leetcode.com/problems/smallest-subsequence-of-distinct-characters/
+
+class Solution {
+public:
+    string smallestSubsequence(string s) {
+         int n=s.size();
+        vector<bool> vis(26,false);
+        vector<int> freq(26,0);
+        vector<char> stk;
+        
+        for(int i=0;i<n;i++)
+        {
+           freq[s[i]-'a']++;
+        }
+        for(int i=0;i<n;i++)
+        {
+            char ele=s[i];
+            freq[ele-'a']--;
+            if(vis[ele-'a'])
+                continue;
+            while(stk.size()!=0 and stk[stk.size()-1] > ele and freq[stk[stk.size()-1] -'a']>0)
+            {
+                vis[stk[stk.size()-1] -'a']=false;
+                stk.pop_back();
+            }
+            vis[ele-'a']=true;
+            stk.push_back(ele);
+        }
+        string ans="";
+        for(auto ele:stk)
+            ans+=ele;
+        return ans;
+    }
+};
