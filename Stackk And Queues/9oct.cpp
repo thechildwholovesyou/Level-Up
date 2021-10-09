@@ -157,3 +157,27 @@ public:
         return ans;
     }
 };
+
+// 921. Minimum Add to Make Parentheses Valid
+
+// https://leetcode.com/problems/minimum-add-to-make-parentheses-valid/
+
+class Solution {
+public:
+    int minAddToMakeValid(string s) {
+        stack<char> stk;
+        for(auto ele: s)
+        {
+            if(ele=='(')
+                stk.push(ele);
+            else
+            {
+                if(!stk.empty() and stk.top()=='(')
+                    stk.pop();
+                else
+                    stk.push(ele);
+            }
+        }
+        return stk.size();
+    }
+};
