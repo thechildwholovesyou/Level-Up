@@ -181,3 +181,64 @@ public:
         return stk.size();
     }
 };
+
+// 895. Maximum Frequency Stack
+// https://leetcode.com/problems/maximum-frequency-stack/
+
+// Push => log(n)
+// Pop => log(n)
+
+class FreqStack {
+private: 
+    class pair{
+        public:
+            int val, idx,  freq;
+        pair(int val,int idx,int freq){
+            this->val = val;
+            this->freq=freq;
+            this->idx=idx;
+        }
+    };
+    
+    struct comparator{
+        bool operator()(const pair &a, const pair &b) const{
+            if(a.freq!=b.freq){
+                return b.freq > a.freq;
+            }
+            return b.idx > a.idx;
+        }
+    };
+    
+    
+    unordered_map<int,int> map;
+    priority_queue<pair, vector<pair>, comparator> pq;
+    
+    int idx=0;
+    
+public:
+    FreqStack() {
+        
+    }
+    
+    void push(int val) {
+        map[val]++;
+        pq.push(pair(val,idx++,map[val]));
+    }
+    
+    int pop() {
+        pair temp =pq.top();
+        pq.pop();
+        map[temp.val]--;
+        if(map[temp.val]==0)
+            map.erase(temp.val);
+        
+        return temp.val;
+    }
+};
+
+/**
+ * Your FreqStack object will be instantiated and called as such:
+ * FreqStack* obj = new FreqStack();
+ * obj->push(val);
+ * int param_2 = obj->pop();
+ */
