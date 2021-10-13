@@ -23,6 +23,30 @@ public:
     }
 };
 
-//
-//
+// 451. Sort Characters By Frequency
+// https://leetcode.com/problems/sort-characters-by-frequency/submissions/
 
+class Solution {
+public:
+    string frequencySort(string s) {
+        priority_queue<pair<int,char>> pq;
+        map<char, int> m;
+        for(auto ele:s){
+            m[ele]++;
+        }
+        
+        for(auto ele: m){
+            pq.push({ele.second, ele.first});
+        }
+        string ans="";
+        while(!pq.empty())
+        {
+            auto n=pq.top();
+            while(n.first--){
+                ans+=n.second;
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
