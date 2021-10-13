@@ -89,3 +89,28 @@ public:
         return ans;
     }
 };
+
+// 387. First Unique Character in a String
+// https://leetcode.com/problems/first-unique-character-in-a-string/
+
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        map<char, pair<int, int>> m;
+        priority_queue<int,vector<int>,greater<int>> pq;
+        
+        for(int i=0;i<s.size();i++){
+            char ele=s[i];
+            m[ele].first++;
+            m[ele].second=i;
+        }
+        for(auto ele:m){
+            if(ele.second.first==1)
+                pq.push(ele.second.second);
+        }
+        
+        if(pq.empty())
+            return -1;
+        return pq.top();
+    }
+};
