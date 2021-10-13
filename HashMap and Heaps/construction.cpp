@@ -16,6 +16,7 @@ private:
      bool compareTo(int x,int y){
         return arr[x] > arr[y];
     }
+    // log n 
 	void downHeapify(int i){
 		int left=left_child(i);
 		int right=right_child(i);
@@ -35,6 +36,8 @@ private:
 		}
 	}
 
+    // log n
+
 	void upHeapify(int i){
 		if( i and arr[parent(i)] < arr[i])
 		{
@@ -51,7 +54,7 @@ public:
 	bool isEmpty(){
 		return size()==0;
 	}
-
+    // o(1)
 	void push(int data){
 		arr.push_back(data);
 		int index=size()-1;
