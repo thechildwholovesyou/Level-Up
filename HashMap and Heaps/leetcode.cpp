@@ -50,3 +50,42 @@ public:
         return ans;
     }
 };
+
+// 1636. Sort Array by Increasing Frequency
+// https://leetcode.com/problems/sort-array-by-increasing-frequency/
+
+struct compare{
+     bool operator()(pair<int,int> p1,pair<int,int> p2){
+        if (p1.first==p2.first){
+            return p1.second<p2.second;
+        }
+        else{
+            return p1.first>p2.first;
+        }
+    }
+    };
+
+class Solution {
+public:
+    vector<int> frequencySort(vector<int>& nums) {
+        priority_queue <pair<int,int>, vector<pair<int,int>>, compare > pq;
+        map<int, int> m;
+        for(auto ele:nums){
+            m[ele]++;
+        }
+        
+        for(auto ele: m){
+            pq.push({ele.second, ele.first});
+        }
+       vector<int> ans;
+        while(!pq.empty())
+        {
+            auto n=pq.top();
+            while(n.first--){
+                ans.push_back(n.second);
+            }
+            pq.pop();
+        }
+        return ans;
+    }
+};
