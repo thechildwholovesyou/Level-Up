@@ -114,3 +114,43 @@ public:
         return pq.top();
     }
 };
+
+// 1497. Check If Array Pairs Are Divisible by k
+// https://leetcode.com/problems/check-if-array-pairs-are-divisible-by-k/
+
+class Solution {
+public:
+    bool canArrange(vector<int>& arr, int k) {
+        map<int,int> m;
+        for(auto ele: arr)
+        {
+            int rem=ele%k;
+            rem=(rem+k)%k;
+            m[rem]++;
+        }
+        for(auto ele: arr)
+        {
+            int rem=ele%k;
+            rem=(rem+k)%k;
+            
+            if(rem==0)
+            {
+                int freq=m[rem];
+                if(freq%2!=0)
+                    return false;
+            }
+            else if(2*rem==k){
+                int freq=m[rem];
+                if(freq%2!=0) return false;
+            }
+            else
+            {
+                int f1=m[rem];
+                int f2=m[k-rem];
+                
+                if(f1!=f2) return false;
+            }
+        }
+        return true;
+    }
+};
