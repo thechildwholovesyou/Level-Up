@@ -263,6 +263,7 @@ public:
 class Solution {
 public:
     int kthSmallest(vector<vector<int>>& matrix, int k) {
+        // {ele, i,j}
         priority_queue<vector<int>,vector<vector<int>>, greater<vector<int>>> pq;
         
         int m=matrix.size();
