@@ -255,6 +255,38 @@ public:
     }
 };
 
+
+// best sol
+// Time: O(K * logK)
+// Space: O(K)
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& matrix, int k) {
+        priority_queue<vector<int>,vector<vector<int>>, greater<vector<int>>> pq;
+        
+        int m=matrix.size();
+        int n=matrix[0].size();
+        
+        for(int i=0;i<m;i++)
+            pq.push({matrix[i][0],i,0});
+        
+        int r=0,c=0;
+        int ans=0;
+        while(k--)
+        {
+            auto ele=pq.top();
+            pq.pop();
+            r=ele[1];
+            c=ele[2];
+            ans=ele[0];
+            if(c+1<n)
+                pq.push({matrix[r][c+1],r,c+1});
+        }
+        return ans;
+    }
+};
+
 // 703. Kth Largest Element in a Stream
 // https://leetcode.com/problems/kth-largest-element-in-a-stream/
 
@@ -285,3 +317,4 @@ public:
  * KthLargest* obj = new KthLargest(k, nums);
  * int param_1 = obj->add(val);
  */
+
