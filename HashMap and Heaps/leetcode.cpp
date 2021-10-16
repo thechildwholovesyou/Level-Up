@@ -318,3 +318,34 @@ public:
  * int param_1 = obj->add(val);
  */
 
+
+// 347. Top K Frequent Elements
+// https://leetcode.com/problems/top-k-frequent-elements/
+
+// TC : O(nlogK)
+class Solution {
+public:
+    vector<int> topKFrequent(vector<int>& nums, int k) {
+        priority_queue<pair<int,int>, vector<pair<int,int>>, greater<pair<int,int>>> pq;
+        map<int,int> m;
+        for(auto ele: nums){
+            m[ele]++;
+        }
+        
+        for(auto ele: m){
+            pq.push({ele.second, ele.first});
+            if(pq.size()>k)
+                pq.pop();
+        }
+        
+        vector<int> v;
+       
+        while(pq.size()!=0)
+        {
+            int num=pq.top().second;
+            v.push_back(num);
+            pq.pop();
+        }
+        return v;
+    }
+};
