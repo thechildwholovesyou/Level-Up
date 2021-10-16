@@ -158,7 +158,8 @@ public:
 // 215. Kth Largest Element in an Array
 // https://leetcode.com/problems/kth-largest-element-in-an-array/
 
-// approach 1 
+// approach 1  
+// TC : Nlog(N)
 
 class Solution {
 public:
@@ -171,7 +172,7 @@ public:
 };
 
 // approach 2 
-
+// TC : Nlog(K)
 class Solution {
 public:
     int findKthLargest(vector<int>& nums, int k) {
@@ -203,5 +204,49 @@ class Solution{
             pq.push(arr[i]);
         while(pq.size() > k) pq.pop(); 
         return pq.top();
+    }
+};
+
+
+// 378. Kth Smallest Element in a Sorted Matrix
+// https://leetcode.com/problems/kth-smallest-element-in-a-sorted-matrix/
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& points, int k) {
+       
+        priority_queue <int > p;
+        for(int i=0;i<points.size();i++)
+        {
+            for(int j=0;j<points[0].size();j++)
+            {
+                p.push(points[i][j]);
+            }
+        }
+        while(p.size()!=k)
+        {
+            p.pop();
+        }
+        return p.top();
+    }
+};
+
+// better sol
+
+class Solution {
+public:
+    int kthSmallest(vector<vector<int>>& points, int k) {
+       
+        priority_queue <int > p;
+        for(int i=0;i<points.size();i++)
+        {
+            for(int j=0;j<points[0].size();j++)
+            {
+                p.push(points[i][j]);
+                if(p.size()>k) p.pop();
+            }
+        }
+       
+        return p.top();
     }
 };
