@@ -380,3 +380,38 @@ public:
         return v;
     }
 };
+
+// optimised
+
+
+class Compare{
+    public:
+    bool operator()(const vector<int>& v1, const vector<int>& v2){
+        return (v1[0]*v1[0] +v1[1]*v1[1]) < (v2[0]*v2[0] +v2[1]*v2[1]); 
+    }
+};
+
+class Solution {
+public:
+    vector<vector<int>> kClosest(vector<vector<int>>& points, int k) {
+        vector<vector<int>> v;
+        priority_queue<vector<int>, vector<vector<int>>, Compare> pq;
+       
+        for(auto ele: points)
+        {
+            pq.push(ele);
+            if(pq.size()> k)
+            {
+                pq.pop();
+            }
+        }
+        
+        while(!pq.empty())
+        {
+            auto ele=pq.top();
+            v.push_back(ele);
+            pq.pop();
+        }
+        return v;
+    }
+};
