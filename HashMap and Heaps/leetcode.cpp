@@ -415,3 +415,42 @@ public:
         return v;
     }
 };
+
+// 692. Top K Frequent Words
+// https://leetcode.com/problems/top-k-frequent-words/
+
+class cmp{
+    public:
+    bool operator()(pair<int,string> a, pair<int,string> b) const{
+        //return a.first > b.first || (a.first == b.first && a.second < b.second);
+        if(a.first ==b.first) return a.second < b.second;
+        return a.first > b.first;
+    }
+};
+class Solution {
+public:
+    vector<string> topKFrequent(vector<string>& words, int k) {
+        map<string,int> m;
+        for(auto ele: words)
+        {
+            m[ele]++;
+        }
+        priority_queue<pair<int,string>,vector<pair<int,string>>,cmp> pq;
+        vector<string> ans;
+        
+        for(auto ele: m)
+        {
+            pq.push({ele.second, ele.first});
+            if(pq.size()>k)
+                pq.pop();
+        }
+        
+        while(!pq.empty())
+        {
+            ans.insert(ans.begin(),pq.top().second);
+            pq.pop();
+        }
+        // reverse(ans.begin(),ans.end());
+        return ans;
+    }
+};
