@@ -479,3 +479,39 @@ public:
         return heights.size()-1;
     }
 };
+
+// 128. Longest Consecutive Sequence
+// https://leetcode.com/problems/longest-consecutive-sequence/
+// uisng min heap 
+
+class Solution {
+public:
+    int longestConsecutive(vector<int>& nums) {
+        if(nums.size()==0) return 0;
+        if(nums.size()==1) return 1;
+        priority_queue<int,vector<int>, greater<int>> pq;
+        for(auto ele: nums)
+            pq.push(ele);
+        
+        int cnt=1;
+        int maxCnt=0;
+        int prev=pq.top();
+        pq.pop();
+        while(pq.size()!=0)
+        {
+          
+            int curr= pq.top();
+            pq.pop();
+            
+            if(abs(prev-curr)==1 or abs(prev-curr)==0)
+            {
+                if(abs(prev-curr)==1) cnt++;
+            }
+            else
+                cnt=1;
+            maxCnt=max(maxCnt, cnt);
+            prev=curr;
+        }
+        return maxCnt;
+    }
+};
