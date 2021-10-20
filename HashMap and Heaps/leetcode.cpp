@@ -665,6 +665,8 @@ public:
         return maxLen;
     }
 };
+// question : LIS ko hashmap se kyo nhi karskte ?
+// ans: usme hme greater than dekhna h, to wo possible nhi ho payega 
 
 
 // 781. Rabbits in Forest
