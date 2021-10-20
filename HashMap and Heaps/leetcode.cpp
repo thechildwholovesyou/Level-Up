@@ -632,6 +632,41 @@ public:
     }
 };
 
+
+//  hashmap wali approach 
+class Solution {
+public:
+    int longestSubsequence(vector<int>& nums, int d) {
+        map<int,int> m;
+        int maxLen=0;
+        for(auto ele: nums)
+        {
+            if(m.find(ele-d)!=m.end())
+                m[ele]=m[ele-d]+1;
+            else
+                m[ele]=1;
+            maxLen=max(maxLen ,m[ele]);
+        }
+        return maxLen;
+    }
+};
+
+// shortcut 
+class Solution {
+public:
+    int longestSubsequence(vector<int>& nums, int d) {
+        map<int,int> m;
+        int maxLen=0;
+        for(auto ele: nums)
+        {
+            m[ele]=m[ele-d]+1;
+            maxLen=max(maxLen ,m[ele]);
+        }
+        return maxLen;
+    }
+};
+
+
 // 781. Rabbits in Forest
 // https://leetcode.com/problems/rabbits-in-forest/
 // sumeet sir wali approach
