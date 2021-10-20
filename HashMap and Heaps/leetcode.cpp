@@ -690,3 +690,29 @@ public:
         return ans;
     }
 };
+
+// 1424. Diagonal Traverse II
+// https://leetcode.com/problems/diagonal-traverse-ii/
+
+class Solution {
+public:
+    vector<int> findDiagonalOrder(vector<vector<int>>& nums) {
+        map<int,vector<int> >m;
+    for(int i=0;i<nums.size();i++)
+    {
+        for(int j=0;j<nums[i].size();j++)
+        {
+            m[i+j].push_back(nums[i][j]);
+        }
+    }
+   
+        vector<int> ans;
+        int n=m.size();
+        for(int i=0;i<=n;i++)
+        {
+            for(auto x=m[i].rbegin();x!=m[i].rend();x++)
+                ans.push_back(*x);
+        }
+        return ans;
+    }
+};
