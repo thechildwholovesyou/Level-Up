@@ -631,3 +631,25 @@ public:
         return lengthOfLIS_memo(0, -1,nums, dp, difference);
     }
 };
+
+// 781. Rabbits in Forest
+// https://leetcode.com/problems/rabbits-in-forest/
+// sumeet sir wali approach
+
+class Solution {
+public:
+    int numRabbits(vector<int>& nums) {
+        map<int,int> m; // freq map 
+        for(auto ele:nums)
+            m[ele]++;
+        int ans=0;
+        for(auto ele:m)
+        {
+            int group_size=ele.first+1;
+            int reportees=ele.second;
+            int n=ceil(reportees*1.0/ group_size*1.0); // n => no of groups
+            ans+=group_size*n;
+        }
+        return ans;
+    }
+};
