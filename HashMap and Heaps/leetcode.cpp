@@ -595,3 +595,39 @@ public:
         
     }
 };
+
+
+// 1218. Longest Arithmetic Subsequence of Given Difference
+// https://leetcode.com/problems/longest-arithmetic-subsequence-of-given-difference/
+
+// using LIS : dp , giving TLE
+
+class Solution {
+public:
+    int lengthOfLIS_memo(int curr, int prev, vector<int>&nums, vector<vector<int>>&dp,int diff)
+    {
+        if(curr==nums.size())
+            return 0;
+        
+        if(prev!=-1 and dp[prev][curr]!=0)
+            return dp[prev][curr];
+        
+        int op1=0;
+        
+        if(prev==-1 or (nums[curr]-nums[prev]==diff))
+        {
+            op1=lengthOfLIS_memo(curr+1, curr, nums, dp,diff)+1;
+        }
+        int op2= lengthOfLIS_memo(curr+1, prev, nums, dp,diff);
+        
+        
+        if(prev!=-1)
+            dp[prev][curr]=max(op1,op2);
+        return max(op1, op2);
+    }
+    
+    int longestSubsequence(vector<int>& nums, int difference) {
+        vector<vector<int>>dp(nums.size(), vector<int>(nums.size(), 0));
+        return lengthOfLIS_memo(0, -1,nums, dp, difference);
+    }
+};
