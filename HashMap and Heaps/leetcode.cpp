@@ -549,3 +549,49 @@ public:
         return maxCnt;
     }
 };
+
+// 632. Smallest Range Covering Elements from K Lists
+// https://leetcode.com/problems/smallest-range-covering-elements-from-k-lists/
+
+class Solution {
+public:
+    vector<int> smallestRange(vector<vector<int>>& nums) {
+        
+        int n=nums.size();
+        // {ele,r,c}
+        priority_queue<vector<int>, vector<vector<int>>, greater<vector<int>>> pq;
+        
+         
+        
+        int maxValue = -(int)1e9;
+        
+        for(int i = 0; i < n;i++){
+            pq.push({nums[i][0], i,0});
+            maxValue = max(maxValue, nums[i][0]);
+        }
+        
+        int range = (int)1e9, sp = -1, ep = -1;
+        while(pq.size() == n){
+            
+            vector<int> temp=pq.top();
+            pq.pop();
+            int r = temp[1], c = temp[2], val = nums[r][c];
+            
+            if(maxValue - val < range){
+                range = maxValue - val;
+                sp = val;
+                ep =  maxValue;
+            }
+            
+            c++;
+            if(c < nums[r].size()){
+                pq.push({nums[r][c],r,c});
+                maxValue = max(maxValue, nums[r][c]);
+            }
+        }
+        
+        vector<int> v{sp,ep};
+        return v;
+        
+    }
+};
