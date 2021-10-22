@@ -752,3 +752,51 @@ public:
         return true;
     }
 };
+
+// 295. Find Median from Data Stream
+// https://leetcode.com/problems/find-median-from-data-stream/
+
+class MedianFinder {
+public:
+    priority_queue<int> maxpq;
+    priority_queue<int,vector<int>, greater<int>> minpq;
+    MedianFinder() {
+        
+    }
+    
+    void addNum(int num) {
+        if(maxpq.size()==0 or num<=maxpq.top())
+            maxpq.push(num);
+        else
+            minpq.push(num);
+        
+        if(maxpq.size()-minpq.size()==2)
+        {
+            int temp=maxpq.top();
+            maxpq.pop();
+            minpq.push(temp);
+        }
+        if(maxpq.size()-minpq.size()==-1)
+        {
+            int temp=minpq.top();
+            minpq.pop();
+            maxpq.push(temp);
+        }
+    }
+    
+    double findMedian() {
+        if(maxpq.size()==minpq.size())
+        {
+            return (maxpq.top()+minpq.top())/2.0;
+        }
+        else
+            return maxpq.top()*1.0;
+    }
+};
+
+/**
+ * Your MedianFinder object will be instantiated and called as such:
+ * MedianFinder* obj = new MedianFinder();
+ * obj->addNum(num);
+ * double param_2 = obj->findMedian();
+ */
