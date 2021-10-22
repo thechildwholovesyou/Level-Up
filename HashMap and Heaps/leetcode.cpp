@@ -716,3 +716,39 @@ public:
         return ans;
     }
 };
+
+// 954. Array of Doubled Pairs
+// https://leetcode.com/problems/array-of-doubled-pairs/
+
+bool cmp(int a,int b){
+    return abs(a)<abs(b);
+}
+
+class Solution {
+public:
+    bool canReorderDoubled(vector<int>& arr) {
+       
+        if(arr.size()%2!=0) return false;
+        map<int,int> m;
+        for(auto ele:arr)
+            m[ele]++;
+        
+        sort(arr.begin(),arr.end(),cmp);
+        
+        for(auto ele: arr)
+            cout<<ele<<" ";
+        cout<<endl;
+        
+        for(int i=0;i<arr.size();i++)
+        {
+            if(m[arr[i]]>0 and m[2*arr[i]]>0)
+            {
+                m[arr[i]]--;
+                m[2*arr[i]]--;
+            }
+            else if(m[arr[i]]> 0 and m[2*arr[i]]<=0)
+                return false;
+        }
+        return true;
+    }
+};
