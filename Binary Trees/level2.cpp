@@ -588,3 +588,40 @@ class Solution {
         return root;
     }
 }
+
+// 106. Construct Binary Tree from Inorder and Postorder Traversal
+// https://leetcode.com/problems/construct-binary-tree-from-inorder-and-postorder-traversal/
+
+class Solution {
+public:
+    
+    TreeNode* helper(vector<int>& inorder, vector<int>& postorder, int ps,int pe, int is,int ie)
+    {
+        if(is>ie) return NULL;
+        // make root node from post ka end 
+        TreeNode* node= new TreeNode(postorder[pe]);
+        // serch in inorder 
+        int k=-1;
+        for(int i=is;i<=ie;i++)
+        {
+            if(inorder[i]==node->val)
+            {
+                k=i;
+                break;
+            }
+        }
+        // count left tree nodes wrt to root node
+        int cls=k-is;
+        
+        node->left =helper(inorder,postorder,ps,ps+cls-1,is,k-1);
+        node->right=helper(inorder,postorder,ps+cls,pe-1,k+1,ie);
+        
+        return node;
+    }
+    
+    TreeNode* buildTree(vector<int>& inorder, vector<int>& postorder) {
+        int n=inorder.size();
+        TreeNode* node=helper(inorder, postorder, 0,n-1,0,n-1);
+        return node;
+    }
+};
