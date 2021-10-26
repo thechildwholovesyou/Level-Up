@@ -118,3 +118,26 @@ int main()
     int ans=getClosest(nums,10);
     cout<<ans;
 }
+
+// 35. Search Insert Position
+// https://leetcode.com/problems/search-insert-position/
+
+class Solution {
+public:
+    // for STL : use upper_bound 
+    int searchInsert(vector<int>& nums, int target) {
+        int l=0;
+        int h=nums.size(); // nums.size()-1 , isliye nhi liya because that could be my ans
+        while(l<h)
+        {
+            int mid=l+(h-l)/2;
+            if(nums[mid]==target)
+                return mid;
+            if(nums[mid]>target)
+                h=mid;
+            else
+                l=mid+1;
+        }
+        return l; // return h will also work as l and h will be in the same pos
+    }
+};
