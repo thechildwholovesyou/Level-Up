@@ -48,3 +48,38 @@ public:
         return ans;
     }
 };
+
+// 74. Search a 2D Matrix
+// https://leetcode.com/problems/search-a-2d-matrix/
+
+class Solution {
+public:
+    bool searchMatrix(vector<vector<int>>& matrix, int target) {
+        int m=matrix.size();
+        int n=matrix[0].size();
+        
+        int i=0;
+        int j=n-1;
+        
+        while(i<m and j>=0)
+        {
+            if(matrix[i][j]==target)
+                return true;
+            while(matrix[i][j]<target)
+            {
+                if(i+1<m)
+                    i++;
+                else
+                    return false;
+            }
+            while(matrix[i][j]>target)
+            {
+                if(j-1>=0)
+                    j--;
+                else
+                    return false;
+            }
+        }
+        return false;
+    }
+};
