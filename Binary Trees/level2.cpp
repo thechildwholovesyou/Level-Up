@@ -683,3 +683,41 @@ public:
         return node;
     }
 };
+
+// 1008. Construct Binary Search Tree from Preorder Traversal
+// https://leetcode.com/problems/construct-binary-search-tree-from-preorder-traversal/
+// jugado solution using leetcode 105
+class Solution {
+public:
+     TreeNode* helper(vector<int>& preorder, vector<int>& inorder,int pstart,int pend, int istart, int iend)
+    {
+        // base case 
+        if(pend<pstart)
+            return NULL;
+        // first make root node using preorder 
+        TreeNode* node=new TreeNode(preorder[pstart]);
+        // search the root in inorder array 
+        int k=-1;
+        for(int i=istart;i<=iend;i++)
+        {
+            if(inorder[i]==node->val)
+            {
+                k=i;
+                break;
+            }
+        }
+        // calculate count of left subtree wrt node
+        int cls=k-istart;
+        
+        node->left=helper(preorder, inorder, pstart+1,pstart+cls,istart,k-1);
+        node->right=helper(preorder, inorder,pstart+cls+1,pend,k+1,iend);
+        return node;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        int n=preorder.size();
+        vector<int> inorder(preorder.begin(),preorder.end());
+        sort(inorder.begin(), inorder.end());
+        TreeNode* node =helper(preorder, inorder, 0,n-1,0,n-1);
+        return node;
+    }
+};
