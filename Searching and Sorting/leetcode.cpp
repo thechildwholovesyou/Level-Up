@@ -83,3 +83,38 @@ public:
         return false;
     }
 };
+
+// Find closest number in array
+// https://www.geeksforgeeks.org/find-closest-number-array/
+// My appraoch using priority_queue(min)
+
+#include<bits/stdc++.h>
+using namespace std;
+
+int getClosest(vector<int>&nums, int target)
+{
+    // unordered_map<int,int> m;
+    priority_queue<pair<int,int>,vector<pair<int,int>>, greater<pair<int,int>>> pq;
+    for(auto ele: nums)
+        pq.push({abs(target-ele), ele});
+    
+    int l=0;
+    int h=nums.size()-1;
+    while(l<=h)
+    {
+        int mid=l+(h-l)/2;
+        if(nums[mid]==target)
+            return nums[mid];
+        if(nums[mid]>target)
+            l=mid+1;
+        else 
+            h=mid-1;
+    }
+    return pq.top().second;
+}
+int main()
+{
+    vector<int> nums={1,2,3,4,5,6,7};
+    int ans=getClosest(nums,10);
+    cout<<ans;
+}
