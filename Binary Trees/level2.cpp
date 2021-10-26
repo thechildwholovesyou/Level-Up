@@ -625,3 +625,39 @@ public:
         return node;
     }
 };
+
+// 889. Construct Binary Tree from Preorder and Postorder Traversal
+// https://leetcode.com/problems/construct-binary-tree-from-preorder-and-postorder-traversal/
+
+class Solution {
+public:
+    TreeNode* helper(vector<int>& preorder, vector<int>& postorder, int prs,int pre,int poss, int pose)
+    {
+        if(prs>pre or poss> pose) return NULL;
+        if(prs==pre){
+            return new TreeNode(preorder[prs]);
+        }
+        TreeNode* root=new TreeNode(preorder[prs]);
+        int val=preorder[prs+1];
+        int idx=-1;
+        
+        for(int i=0;i<postorder.size()-1;i++)
+        {
+            if(postorder[i]==val)
+            {
+                idx=i;
+                break;
+            }
+        }
+        int cls=idx-poss+1;
+        root->left=helper(preorder, postorder, prs+1, prs+cls,poss,idx);
+        root->right=helper(preorder, postorder, prs+cls+1,pre,idx+1, pose-1);
+        
+        return root;
+    }
+    TreeNode* constructFromPrePost(vector<int>& preorder, vector<int>& postorder ) {
+        TreeNode* node= helper(preorder, postorder, 0,preorder.size()-1,0,postorder.size()-1);
+        return node;
+        
+    }
+};
