@@ -166,3 +166,45 @@ public:
         return ans;
     }
 };
+
+// O(n) solution 
+
+class Solution {
+public:
+    int perfectLocation(vector<int> &arr, int data)
+{
+    int si = 0, ei = arr.size();
+
+    while (si < ei)
+    {
+        int mid = (si + ei) / 2;
+        if (arr[mid] <= data)
+            si = mid + 1;
+        else
+            ei = mid;
+    }
+
+    return ei; // si
+}
+
+    vector<int> findClosestElements(vector<int>& arr, int k, int x) {
+        int n=arr.size();
+        if(x<=arr[0])
+            return {arr.begin(), arr.begin()+k};
+        else if(x>=arr[n-1])
+            return {arr.end()-k, arr.end()};
+        
+        int idx=perfectLocation(arr,x);
+        int low=max(0,idx-k);
+        int high=min(n-1,idx+k);
+        
+        while((high-low+1)>k)
+        {
+            if((x-arr[low])>(arr[high]-x))
+                low++;
+            else
+                high--;
+        }
+        return {arr.begin()+low, arr.begin()+high+1};
+    }
+};
