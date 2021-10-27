@@ -744,3 +744,26 @@ public:
         return helper(preorder, INT_MIN, INT_MAX);
     }
 };
+
+// Construct BST from Postorder 
+// https://practice.geeksforgeeks.org/problems/construct-bst-from-post-order/1#
+
+int idx;
+Node* helper(int post[],int l,int r)
+{
+    if(idx<0 or post[idx]<l or post[idx]>r) return NULL;
+    
+    Node* root= new Node(post[idx]);
+    idx--;
+    
+    root->right=helper(post,root->data+1,r);
+    root->left=helper(post,l,root->data-1);
+    
+    return root;
+}
+
+Node *constructTree (int post[], int size)
+{
+    idx=size-1;
+    return helper(post, INT_MIN, INT_MAX);
+}
