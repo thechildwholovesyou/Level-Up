@@ -721,3 +721,26 @@ public:
         return node;
     }
 };
+
+// O(n) O(1) wala approach 
+
+class Solution {
+public:
+    int idx;
+    TreeNode*  helper(vector<int>&preorder, int l,int r)
+    {
+        if(idx>=preorder.size() ||  preorder[idx]<l || preorder[idx]>r) return NULL;
+        
+        TreeNode*  node=new TreeNode(preorder[idx]);
+        idx++;
+        
+        node->left=helper(preorder,l,node->val-1);
+        node->right=helper(preorder,node->val+1,r);
+        
+        return node;
+    }
+    TreeNode* bstFromPreorder(vector<int>& preorder) {
+        idx=0;
+        return helper(preorder, INT_MIN, INT_MAX);
+    }
+};
