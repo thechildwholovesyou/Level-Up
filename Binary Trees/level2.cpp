@@ -883,3 +883,43 @@ public:
         return res;
     }
 };
+
+// 103. Binary Tree Zigzag Level Order Traversal
+// https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/
+
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> bigAns;
+        if(!root) return bigAns;
+        queue<TreeNode* > q;
+        q.push(root);
+        bool flag=false;
+        
+        while(!q.empty())
+        {
+            int size=q.size();
+            vector<int> smallAns;
+            while(size--)
+            {
+                TreeNode* temp=q.front();
+                q.pop();
+                
+                smallAns.push_back(temp->val);
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }
+            if(flag)
+            {
+                reverse(smallAns.begin(), smallAns.end());
+                bigAns.push_back(smallAns);
+            }
+            else
+                bigAns.push_back(smallAns);
+            flag=!flag;
+        }
+        return bigAns;
+    }
+};
