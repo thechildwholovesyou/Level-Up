@@ -799,3 +799,41 @@ public:
         return bigAns;
     }
 };
+
+// 107. Binary Tree Level Order Traversal II
+// https://leetcode.com/problems/binary-tree-level-order-traversal-ii/
+
+class Solution {
+public:
+    vector<vector<int>> levelOrderBottom(TreeNode* root) {
+        vector<vector<int>>bigAns;
+        stack<vector<int>> s;
+        if(!root) return bigAns;
+        queue<TreeNode* > q;
+        q.push(root);
+        while(!q.empty())
+        {
+            int size=q.size();
+            vector<int> smallAns;
+            while(size--)
+            {
+                TreeNode* temp=q.front();
+                q.pop();
+                smallAns.push_back(temp->val);
+                
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }
+            s.push(smallAns);
+        }
+        while(!s.empty())
+        {
+            auto temp=s.top();
+            s.pop();
+            bigAns.push_back(temp);
+        }
+        return bigAns;
+    }
+};
