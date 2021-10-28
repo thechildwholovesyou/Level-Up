@@ -998,3 +998,25 @@ public:
         return res;
     }
 };
+
+// 671. Second Minimum Node In a Binary Tree
+// https://leetcode.com/problems/second-minimum-node-in-a-binary-tree/
+
+class Solution {
+public:
+    void inorder(TreeNode* root, set<int> &s)
+    {
+        if(!root) return;
+        inorder(root->left,s);
+        s.insert(root->val);
+        inorder(root->right,s);
+    }
+    int findSecondMinimumValue(TreeNode* root) {
+        set<int> s;
+        inorder(root, s);
+        vector<int> v(s.begin(), s.end());
+        if(v.size()==1) return -1;
+        return v[1];
+        
+    }
+};
