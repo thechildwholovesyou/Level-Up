@@ -767,3 +767,35 @@ Node *constructTree (int post[], int size)
     idx=size-1;
     return helper(post, INT_MIN, INT_MAX);
 }
+
+// 102. Binary Tree Level Order Traversal
+// https://leetcode.com/problems/binary-tree-level-order-traversal/
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> bigAns;
+        vector<int> smallAns;
+        if(!root) return bigAns;
+        
+        queue<TreeNode* > q;
+        q.push(root);
+        while(!q.empty())
+        {
+           int size=q.size();
+            vector<int> smallAns;
+            while(size--)
+            {
+                TreeNode* temp=q.front();
+                q.pop();
+                smallAns.push_back(temp->val);
+                
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }
+            bigAns.push_back(smallAns);
+        }
+        return bigAns;
+    }
+};
