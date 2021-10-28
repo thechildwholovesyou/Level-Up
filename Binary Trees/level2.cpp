@@ -953,3 +953,34 @@ vector<int> leftView(Node *root)
    }
    return bigAns;
 }
+
+// 199. Binary Tree Right Side View
+// https://leetcode.com/problems/binary-tree-right-side-view/
+
+class Solution {
+public:
+    vector<int> rightSideView(TreeNode* root) {
+        vector<int> bigAns;
+        if(!root) return bigAns;
+        queue<TreeNode* >q;
+        q.push(root);
+        while(!q.empty())
+        {
+            int size=q.size();
+            for(int i=1;i<=size;i++)
+            {
+                TreeNode* temp=q.front();
+                q.pop();
+                
+                if(i==size)
+                    bigAns.push_back(temp->val);
+                
+                if(temp->left)
+                    q.push(temp->left);
+                if(temp->right)
+                    q.push(temp->right);
+            }
+        }
+        return bigAns;
+    }
+};
