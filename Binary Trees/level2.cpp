@@ -923,3 +923,33 @@ public:
         return bigAns;
     }
 };
+
+// Left View of Binary Tree 
+// https://practice.geeksforgeeks.org/problems/left-view-of-binary-tree/1
+
+vector<int> leftView(Node *root)
+{
+   // Your code here
+   vector<int> bigAns;
+   if(!root) return bigAns;
+   queue<Node* > q;
+   q.push(root);
+   while(!q.empty())
+   {
+       int size=q.size();
+       for(int i=1;i<=size;i++)
+       {
+           Node* temp=q.front();
+           q.pop();
+           
+           if(i==1)
+            bigAns.push_back(temp->data);
+            
+            if(temp->left)
+                q.push(temp->left);
+            if(temp->right)
+                q.push(temp->right);
+       }
+   }
+   return bigAns;
+}
