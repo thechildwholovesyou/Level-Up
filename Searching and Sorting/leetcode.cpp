@@ -326,3 +326,51 @@ vector<vector<int>> pairs(vector<int>&nums,int target)
     }
     return ans;
 }
+
+// 15. 3Sum
+// https://leetcode.com/problems/3sum/
+
+class Solution {
+public:
+     vector<vector<int>> twoSum(vector<int>& nums, int start, int target) {
+        vector<vector<int>> ans;
+        int i=start;
+        int j=nums.size()-1;
+        while(i<j)
+        {
+            if(nums[i]+nums[j]==target)
+            {
+                ans.push_back({nums[i],nums[j]});
+                i++;
+                j--;
+
+                while(i<j and nums[i]==nums[i-1]) i++;
+                while(i<j and nums[j]==nums[j+1]) j--;
+            }
+            else if(nums[i]+nums[j]<target)
+                i++;
+            else
+                j--;
+        }
+        return ans;
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>>bigAns;
+        if(nums.size()<3) return bigAns;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i==0 || nums[i]!=nums[i-1])
+            {
+                vector<vector<int>> temp=twoSum(nums,i+1, -1*nums[i]);
+                for(auto smallAns:temp)
+                {
+                    smallAns.push_back(nums[i]);
+                    bigAns.push_back(smallAns);
+                }
+            }
+            
+        }
+        return bigAns;
+    }
+};
