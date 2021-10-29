@@ -261,3 +261,35 @@ public:
         return ans;
     }
 };
+
+// 653. Two Sum IV - Input is a BST
+// https://leetcode.com/problems/two-sum-iv-input-is-a-bst/
+
+class Solution {
+public:
+    void inorder(TreeNode* root, vector<int>&ans)
+    {
+        if(!root) return;
+        inorder(root->left, ans);
+        ans.push_back(root->val);
+        inorder(root->right, ans);
+    }
+    bool findTarget(TreeNode* root, int k) {
+        if(!root) return false;
+        vector<int> v;
+        inorder(root,v);
+        
+        int i=0;
+        int j=v.size()-1;
+        while(i<j)
+        {
+            if(v[i]+v[j]==k)
+                return true;
+            else if(v[i]+v[j]<k)
+                i++;
+            else
+                j--;
+        }
+        return false;
+    }
+};
