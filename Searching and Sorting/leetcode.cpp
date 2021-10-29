@@ -293,3 +293,36 @@ public:
         return false;
     }
 };
+
+// Given an int array nums and an int target, find how many unique pairs in the array such that their sum is equal to target. Return the number of pairs.
+// https://leetcode.com/discuss/interview-question/372434/Amazon-or-OA-2019-or-Two-Sum-Unique-Pairs/391924
+// without using any extra space 
+// although this question can be easily solved by using sets : as set stores unique elements
+
+vector<vector<int>> pairs(vector<int>&nums,int target)
+{
+    sort(nums.begin(), nums.end());
+    int i=0;
+    int j=nums.size()-1;
+
+    vector<vector<int>> bigAns;
+    while(i<j)
+    {
+        if(nums[i]+nums[j]==target)
+        {
+            vector<int> smallAns;
+            smallAns.push_back(i);
+            smallAns.push_back(j);
+            i++;
+            j--;
+
+            while(i<j and nums[i]==nums[i-1]) i++;
+            while(i<j and nums[j]==nums[j+1]) j--;
+        }
+        else if(nums[i]+nums[j]<target)
+            i++;
+        else
+            j--;
+    }
+    return ans;
+}
