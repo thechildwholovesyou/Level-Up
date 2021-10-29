@@ -211,6 +211,7 @@ public:
 
 // 1. Two Sum
 // https://leetcode.com/problems/two-sum/
+// using maps 0(n) extra space
 
 class Solution {
 public:
@@ -225,6 +226,37 @@ public:
             }
             else
                 mp[nums[i]]=i;
+        }
+        return ans;
+    }
+};
+
+// efficient sol 
+
+
+
+
+// 167. Two Sum II - Input Array Is Sorted
+// https://leetcode.com/problems/two-sum-ii-input-array-is-sorted/
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> ans;
+        int i=0;
+        int j=nums.size()-1;
+        while(i<j)
+        {
+            if(nums[i]+nums[j]==target)
+            {
+                ans.push_back(i+1);
+                ans.push_back(j+1);
+                return ans;
+            }
+            else if(nums[i]+nums[j]<target)
+                i++;
+            else
+                j--;
         }
         return ans;
     }
