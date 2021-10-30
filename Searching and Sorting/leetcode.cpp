@@ -374,3 +374,29 @@ public:
         return bigAns;
     }
 };
+
+// Find all pairs with a given sum
+// https://practice.geeksforgeeks.org/problems/find-all-pairs-whose-sum-is-x5808/1
+
+class Solution{
+    public:
+    vector<pair<int,int>> allPairs(int A[], int B[], int N, int M, int X)
+    {
+        // Your code goes here  
+        vector<pair<int,int>> ans;
+        set<int> s;
+        for(int i=0;i<N;i++)
+            s.insert(A[i]);
+        
+        for(int i=0;i<M;i++)
+        {
+            if(s.find(X-B[i])!=s.end())
+            {
+                ans.push_back({X-B[i],B[i]});
+            }
+        }
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+    
+};
