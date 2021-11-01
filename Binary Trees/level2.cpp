@@ -1133,3 +1133,36 @@ public:
         return ans;
     }
 };
+
+// 501. Find Mode in Binary Search Tree
+// https://leetcode.com/problems/find-mode-in-binary-search-tree/
+
+class Solution {
+public:
+    void inorder_helper(TreeNode* root, unordered_map<int,int>&m)
+    {
+        if(!root) return;
+        inorder_helper(root->left,m);
+        m[root->val]++;
+        inorder_helper(root->right,m);
+    }
+    vector<int> findMode(TreeNode* root) {
+        vector<int> ans;
+        if(!root) return ans;
+        unordered_map<int,int> m;
+        inorder_helper(root,m);
+        
+        int maxFreq;
+        
+        for(auto ele:m)
+        {
+            maxFreq=max(maxFreq,ele.second);
+        }
+        for(auto ele:m)
+        {
+            if(ele.second==maxFreq)
+                ans.push_back(ele.first);
+        }
+        return ans;
+    }
+};
