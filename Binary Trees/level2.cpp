@@ -1050,3 +1050,37 @@ public:
         return root->val==val and isUnivalTree(root->left, val) and isUnivalTree(root->right,val);
     }
 };
+
+// 872. Leaf-Similar Trees
+// https://leetcode.com/problems/leaf-similar-trees/
+
+class Solution {
+public:
+    void helper(TreeNode* root, vector<int>&v)
+    {
+        if(!root) return;
+        if(root->left==NULL and root->right==NULL) v.push_back(root->val);
+        helper(root->left, v);
+        helper(root->right,v);
+    }
+    bool leafSimilar(TreeNode* root1, TreeNode* root2) {
+        if(!root1 or !root2) return false;
+        vector<int> v1;
+        vector<int> v2;
+        helper(root1, v1);
+        helper(root2,v2);
+        
+        if(v1.size()!=v2.size()) return false;
+        
+        int i=0;
+        int j=0;
+        while(i<v1.size() or j<v2.size())
+        {
+            if(v1[i]!=v2[j])
+                return false;
+            i++;
+            j++;
+        }
+        return true;
+    }
+};
