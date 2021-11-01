@@ -1104,3 +1104,32 @@ public:
         return root;
     }
 };
+
+// 1305. All Elements in Two Binary Search Trees
+// https://leetcode.com/problems/all-elements-in-two-binary-search-trees/
+
+class Solution {
+public:
+    void inorder_helper(TreeNode* root, vector<int>&v)
+    {
+        if(!root) return;
+        inorder_helper(root->left,v);
+        v.push_back(root->val);
+        inorder_helper(root->right,v);
+    }
+    vector<int> getAllElements(TreeNode* root1, TreeNode* root2) {
+        vector<int> ans;
+        if(!root1 and !root2) return ans;
+        vector<int>v1;
+        vector<int>v2;
+        inorder_helper(root1,v1);
+        inorder_helper(root2,v2);
+        
+        for(int i=0;i<v1.size();i++)
+            ans.push_back(v1[i]);
+        for(auto ele:v2)
+            ans.push_back(ele);
+        sort(ans.begin(),ans.end());
+        return ans;
+    }
+};
