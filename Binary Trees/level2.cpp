@@ -1084,3 +1084,23 @@ public:
         return true;
     }
 };
+
+// 1038. Binary Search Tree to Greater Sum Tree
+// https://leetcode.com/problems/binary-search-tree-to-greater-sum-tree/
+
+class Solution {
+public:
+    void reversed_inorder_traversal(TreeNode* root, int &sum)
+    {
+        if(!root) return;
+        reversed_inorder_traversal(root->right,sum);
+        root->val+=sum;
+        sum=root->val;
+        reversed_inorder_traversal(root->left,sum);
+    }
+    TreeNode* bstToGst(TreeNode* root) {
+        int sum=0;
+        reversed_inorder_traversal(root,sum);
+        return root;
+    }
+};
