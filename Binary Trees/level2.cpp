@@ -1037,3 +1037,16 @@ public:
         return root1;
     }
 };
+
+// 965. Univalued Binary Tree
+// https://leetcode.com/problems/univalued-binary-tree/
+
+class Solution {
+public:
+    
+    bool isUnivalTree(TreeNode* root,int val=-1) {
+        if(!root) return true;
+        if(val<0) val=root->val;
+        return root->val==val and isUnivalTree(root->left, val) and isUnivalTree(root->right,val);
+    }
+};
