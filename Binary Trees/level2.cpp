@@ -1207,3 +1207,25 @@ public:
         return helper(root,p->val,q->val);
     }
 };
+
+
+// 701. Insert into a Binary Search Tree
+// https://leetcode.com/problems/insert-into-a-binary-search-tree/
+
+class Solution {
+public:
+    TreeNode* insertIntoBST(TreeNode* root, int data) {
+        if(root==NULL)
+        {
+            TreeNode* node=new TreeNode(data);
+            return node;
+        }
+        
+        if(root->val >= data)
+            root->left=insertIntoBST(root->left,data);
+        else if(root->val<data)
+             root->right=insertIntoBST(root->right,data);
+        
+        return root;
+    }
+};
