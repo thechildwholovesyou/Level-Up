@@ -1166,3 +1166,17 @@ public:
         return ans;
     }
 };
+
+// 559. Maximum Depth of N-ary Tree
+// https://leetcode.com/problems/maximum-depth-of-n-ary-tree/
+
+class Solution {
+public:
+    int maxDepth(Node* root) {
+        if(!root) return 0;
+        int cnt=1;
+        for(Node* child:root->children)
+            cnt=max(cnt,1+maxDepth(child));
+        return cnt;
+    }
+};
