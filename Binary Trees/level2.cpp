@@ -1229,3 +1229,48 @@ public:
         return root;
     }
 };
+
+// 129. Sum Root to Leaf Numbers
+// https://leetcode.com/problems/sum-root-to-leaf-numbers/
+
+class Solution {
+public:
+    
+    void rootToLeafPaths(TreeNode* root, vector<string>&bigAns,string smallAns)
+    {
+        if(!root->left and !root->right)
+        {
+            smallAns+=to_string(root->val);
+            bigAns.push_back(smallAns);
+            return;
+        }
+        
+        smallAns+=to_string(root->val);
+        if(root->left) 
+            rootToLeafPaths(root->left,bigAns, smallAns);
+        if(root->right)
+            rootToLeafPaths(root->right, bigAns, smallAns);
+        
+    }
+    
+    int sumNumbers(TreeNode* root) {
+        if(!root) return 0;
+        if(!root->left and !root->right) return root->val;
+        
+        vector<string> res;
+        rootToLeafPaths(root, res, "");
+        
+        int sum=0;
+        for(auto ele:res)
+        {
+            stringstream geek(ele);
+ 
+            // The object has the value 12345 and stream
+            // it to the integer x
+            int x = 0;
+            geek >> x;
+            sum+=x;
+        }
+        return sum;
+    }
+};
