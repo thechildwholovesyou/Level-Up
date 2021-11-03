@@ -1291,3 +1291,41 @@ class Solution {
         return dfs(root,0);
     }
 }
+
+// 450. Delete Node in a BST
+// https://leetcode.com/problems/delete-node-in-a-bst/
+// Brute force appoach
+
+class Solution {
+public:
+    void inorder(TreeNode* root, int key,vector<int>&ans)
+    {
+        if(!root) return;
+        inorder(root->left,key,ans);
+        if(root->val!=key)
+            ans.push_back(root->val);
+        inorder(root->right,key,ans);
+        
+    }
+    
+    TreeNode* helper(int low,int high,vector<int>&res)
+    {
+        if(low>high) return NULL;
+        int mid=low+(high-low)/2;
+        TreeNode* root=new TreeNode(res[mid]);
+        root->left=helper(low,mid-1,res);
+        root->right=helper(mid+1,high,res);
+        
+        return root;
+    }
+    
+    TreeNode* deleteNode(TreeNode* root, int key) {
+        if(!root) return NULL;
+        //if(root->val==key) return NULL;
+        vector<int> in;
+        inorder(root, key,in);
+        
+        return helper(0,in.size()-1, in);
+        
+    }
+};
