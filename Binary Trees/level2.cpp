@@ -1367,3 +1367,26 @@ class Solution {
         return max;
     }
 }
+
+// 404. Sum of Left Leaves
+// https://leetcode.com/problems/sum-of-left-leaves/
+
+class Solution {
+public:
+    int sum=0;
+    void helper(TreeNode* root)
+    {
+        if(!root) return ;
+        
+        if(root->left and !root->left->left and !root->left->right)
+            sum+=root->left->val;
+        helper(root->left);
+        helper(root->right);
+    }
+    
+    int sumOfLeftLeaves(TreeNode* root) {
+        if(!root) return 0;
+        helper(root);
+        return sum;
+    }
+};
