@@ -31,3 +31,36 @@ public:
         return hasPath(start,end,graph,vis);
     }
 };
+
+// 797. All Paths From Source to Target
+// https://leetcode.com/problems/all-paths-from-source-to-target/
+
+class Solution {
+public:
+    
+    void allPaths(vector<vector<int>>& graph,int src,int dest,vector<vector<int>>&bigAns,vector<int>&smallAns)
+    {
+        smallAns.push_back(src); // and here we are just assume maring the node as visisted
+        
+        if(src==dest)
+        {
+            bigAns.push_back(smallAns);
+        }
+        for(int i=0;i<graph[src].size();i++)
+        {
+            allPaths(graph,graph[src][i],dest,bigAns,smallAns);
+        }
+        smallAns.pop_back(); // this also acts as a visited array 
+        // just assume here we are unmarking the vis node
+    }
+    
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        vector<vector<int>> bigAns;
+        if(graph.size()==0) return bigAns;
+        vector<int>smallAns;
+        
+         allPaths(graph,0,graph.size()-1,bigAns,smallAns);
+        
+        return bigAns;
+    }
+};
