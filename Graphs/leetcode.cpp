@@ -140,3 +140,47 @@ public:
         return cnt;
     }
 };
+
+// 695. Max Area of Island
+// https://leetcode.com/problems/max-area-of-island/
+
+class Solution {
+public:
+    
+    int dfs(int sr,int sc,vector<vector<int>>& grid,vector<vector<int>>& dir)
+    {
+        grid[sr][sc]=0;
+        int cnt=0;
+        for(auto ele:dir)
+        {
+            int r=sr+ele[0];
+            int c=sc+ele[1];
+            
+            if(r>=0 and c>=0 and r<grid.size() and c<grid[0].size() and grid[r][c]==1)
+                cnt+=dfs(r,c,grid,dir);
+        }
+        return cnt+1;
+    }
+    
+    int maxAreaOfIsland(vector<vector<int>>& grid) {
+        if(grid.size()==0) return 0;
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        vector<vector<int>> dir={{1,0},{-1,0},{0,-1},{0,1}};
+        
+        int maxi=0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]==1)
+                {
+                    int temp=dfs(i,j,grid,dir);
+                    maxi=max(maxi,temp);
+                }
+            }
+        }
+        return maxi;
+    }
+};
