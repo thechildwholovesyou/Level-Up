@@ -98,3 +98,45 @@ public:
         return components - 1;
     }
 };
+
+// 200. Number of Islands
+// https://leetcode.com/problems/number-of-islands/
+
+class Solution {
+public:
+    
+    void dfs(int sr,int sc,vector<vector<char>>& grid,vector<vector<int>>& dir)
+    {
+        grid[sr][sc]='0';
+        for(auto ele:dir)
+        {
+            int r=sr+ele[0];
+            int c=sc+ele[1];
+            
+            if(r>=0 and c>=0 and r<grid.size() and c<grid[0].size() and grid[r][c]=='1')
+                dfs(r,c,grid,dir);
+        }
+    }
+    
+    int numIslands(vector<vector<char>>& grid) {
+        if(grid.size()==0) return 0;
+        
+        int m=grid.size();
+        int n=grid[0].size();
+        
+        vector<vector<int>> dir={{0,1},{0,-1},{1,0},{-1,0}};
+        int cnt=0;
+        for(int i=0;i<m;i++)
+        {
+            for(int j=0;j<n;j++)
+            {
+                if(grid[i][j]=='1')
+                {
+                    dfs(i,j,grid,dir);
+                    cnt++;
+                }
+            }
+        }
+        return cnt;
+    }
+};
