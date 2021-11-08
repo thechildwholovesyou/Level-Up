@@ -237,3 +237,34 @@ public:
         return cnt;
     }
 };
+
+// 841. Keys and Rooms
+// https://leetcode.com/problems/keys-and-rooms/
+
+class Solution {
+public:
+    
+    void dfs(vector<vector<int>>&graph, int src,vector<bool>&vis)
+    {
+        vis[src]=true;
+        for(int i=0;i<graph[src].size();i++)
+        {
+            if(vis[graph[src][i]]==0)
+            {
+                dfs(graph,graph[src][i],vis);
+            }
+        }
+    }
+    
+    bool canVisitAllRooms(vector<vector<int>>& rooms) {
+        vector<bool> vis(rooms.size(), false);
+        dfs(rooms, 0,vis);
+        
+         for(int i = 0; i < rooms.size(); i++){
+            if(!vis[i]){
+                return false;
+            }
+        }
+        return true;
+    }
+};
