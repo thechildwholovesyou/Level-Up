@@ -268,3 +268,99 @@ public:
         return true;
     }
 };
+
+// GET CONNECTED COMPONENTS 
+// https://classroom.pepcoding.com/myClassroom/the-placement-program-pitampura-mar-14-2021/graph/gcc-official/ojquestion
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Edge{
+    public :
+    int src;
+    int nbr;
+    int cost;
+    Edge(){}
+    Edge(int u, int v, int c){
+        src = u;
+        nbr = v;
+        cost= c;
+    }
+
+};
+
+void add(vector<vector<Edge>>&graph , int u, int v, int c){
+    Edge *e = new Edge(u,v,c);
+    graph[u].push_back(*e);
+}
+
+// void display(vector<vector<Edge>>graph){
+//     for(int i=0;i<graph.size();i++){
+//         cout<<i<<" = ";
+//         for(auto x : graph[i]){
+//             cout<<x.src<<" - "<<x.nbr<<" @ "<<x.cost<<" ,  ";
+//         }
+//         cout<<" ";
+//     }
+// }
+
+void check(vector<vector<Edge>>&graph, int src ,vector<int>&temp ,vector<bool>&pos){
+    
+    if(pos[src]==true) return ;
+    
+   
+    temp.push_back(src);
+    
+    pos[src] = true;
+    for(auto x : graph[src]){
+        int nb = x.nbr;
+        check(graph , nb, temp, pos);
+    }
+    
+}
+
+
+
+int main(){
+    int vertex , edge;
+    cin>>vertex>>edge;
+    vector<vector<Edge>>graph ; 
+    vector<Edge>t;
+    for(int i=0;i<vertex;i++){
+       graph.push_back(t);
+    }
+    for(int i = 0;i<edge;i++){
+        int u , v, c;
+        cin>>u>>v>>c;
+       add(graph , u, v, c);
+       add(graph , v, u, c);
+    }
+    vector<bool>pos(vertex , false);
+    vector<vector<int>>vx;
+    for(int i=0;i<vertex;i++){
+        vector<int>temp;
+        check(graph, i , temp , pos);
+        if(temp.size()>0){
+            vx.push_back(temp);
+        }
+    }
+    cout<<"[";
+    for(int i=0;i<vx.size();i++){
+       vector<int>as = vx[i];
+       cout<<"[";
+       for(int i=0;i<as.size();i++){
+           if(i==as.size()-1){
+               cout<<as[i];
+           }else{
+               cout<<as[i]<<", ";
+           }
+       }
+       cout<<"]";
+       if(i==vx.size()-1){
+           
+       }else{
+           cout<<", ";
+       }
+    }
+    cout<<"]";
+}
