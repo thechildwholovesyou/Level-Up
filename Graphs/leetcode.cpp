@@ -364,3 +364,88 @@ int main(){
     }
     cout<<"]";
 }
+
+// Perfect Friends 
+// https://www.pepcoding.com/resources/online-java-foundation/graphs/perfect-friends-official/ojquestion
+// connceted components wala logic used here 
+
+#include<bits/stdc++.h>
+using namespace std;
+
+class Edge{
+    public :
+    int src;
+    int nbr;
+    Edge(){}
+    Edge(int u, int v){
+        src = u;
+        nbr = v;
+    }
+
+};
+
+void add(vector<vector<Edge>>&graph , int u, int v){
+    Edge *e = new Edge(u,v);
+    graph[u].push_back(*e);
+}
+
+void dfs(vector<vector<Edge>>&graph,int src,vector<int>&smallAns, vector<bool>&vis)
+{
+    if(vis[src]) return;
+    smallAns.push_back(src);
+
+    vis[src]=true;
+    for(auto x:graph[src])
+    {
+        int nb=x.nbr;
+        dfs(graph,nb,smallAns,vis);
+    }
+    return;
+}
+
+int main(){
+    int vertex , edge;
+    cin>>vertex>>edge;
+    vector<vector<Edge>>graph ; 
+    vector<Edge>t;
+    for(int i=0;i<vertex;i++){
+       graph.push_back(t);
+    }
+    for(int i = 0;i<edge;i++){
+        int u , v;
+        cin>>u>>v;
+       add(graph , u, v);
+       add(graph , v,u);
+    }
+
+    vector<bool> vis(vertex,false);
+    vector<int>smallAns;
+    for(int i=0;i<vertex;i++)
+    {
+        vector<int>temp;
+        dfs(graph,i,temp,vis);
+        if(temp.size()>0)
+            smallAns.push_back(temp.size());
+    }
+    int ans=0;
+    if(smallAns.size()==1)
+    {
+        cout<<0;
+        return 0;
+    }
+    else
+    {
+        for(int i=0;i<smallAns.size()-1;i++)
+        {
+            ans+=smallAns[i]*smallAns[i+1];
+        }
+    }
+    if(smallAns.size()>2)
+    {
+        ans+=smallAns[smallAns.size()-1]*smallAns[0];
+    }
+    cout<<ans;
+    
+
+   
+}
