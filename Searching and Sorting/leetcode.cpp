@@ -581,3 +581,74 @@ int pivotedBinarySearch (vector<int>& arr, int n, int key)
         return true;
     }
 };
+
+// 4. Median of Two Sorted Arrays
+// https://leetcode.com/problems/median-of-two-sorted-arrays/
+// brute force 
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        vector<int> res;
+        for(auto ele:nums1)
+            res.push_back(ele);
+        for(auto ele:nums2)
+            res.push_back(ele);
+        sort(res.begin(),res.end());
+         int n=res.size();
+        if(res.size()%2!=0)
+            return (double)(res[res.size()/2]);
+       
+        else
+        {
+            double x=((double)(res[(n-1)/2])+(double)(res[n/2]))/2;
+            return x;
+        }
+    }
+};
+
+//optimise 
+
+class Solution {
+public:
+    double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
+        if(nums1.size()>nums2.size())
+            swap(nums1,nums2);
+        int n1=nums1.size(), n2=nums2.size();
+        int total=n1+n2;
+        
+        int low=0,high=n1;
+        while(low<=high)
+        {
+            int cut1=(low+high)/2;
+            int cut2=((n1+n2+1)/2)-cut1;
+            
+            int al=cut1==0?INT_MIN:nums1[cut1-1];
+            int bl=cut2==0?INT_MIN:nums2[cut2-1];
+            int ar=cut1==n1?INT_MAX:nums1[cut1];
+            int br=cut2==n2?INT_MAX:nums2[cut2];
+            
+            if(bl<=ar and al<=br)
+            {
+                if(total%2==0){
+                    int x =max(al,bl)+min(ar,br);
+                    return (x*1.0)/2.0;
+                }
+                else
+                {
+                    return max(al,bl);
+                }
+                    
+            }
+            if(bl>ar)
+            {
+                low=cut1+1;
+            }
+            else if(al>br)
+            {
+                high=cut1-1;
+            }
+        }
+        return -1;
+    }
+};
