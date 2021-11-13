@@ -545,3 +545,23 @@ public:
     }
 };
 
+// 1325. Delete Leaves With a Given Value
+// https://leetcode.com/problems/delete-leaves-with-a-given-value/
+
+class Solution {
+public:
+    TreeNode* removeLeafNodes(TreeNode* root, int target) {
+        if(!root) return NULL;
+        
+        // base case 
+        
+        if(!root->left and !root->right and root->val==target) return NULL;
+        root->left=removeLeafNodes(root->left,target);
+        root->right=removeLeafNodes(root->right, target);
+        
+        if(!root->left and !root->right and root->val==target) return NULL;
+        
+        return root;
+        
+    }
+};
