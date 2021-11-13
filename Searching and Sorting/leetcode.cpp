@@ -652,3 +652,57 @@ public:
         return -1;
     }
 };
+
+// Allocate minimum number of pages
+// https://practice.geeksforgeeks.org/problems/allocate-minimum-number-of-pages0937/1
+
+class Solution 
+{
+    public:
+    //Function to find minimum number of pages.
+    bool isPossible(int arr[],int mid,int N,int M)
+    {
+        int st=1;
+        int sum=0;
+        for(int i=0;i<N;i++)
+        {
+            sum+=arr[i];
+            if(sum>mid)
+            {
+                st+=1;
+                sum=arr[i];
+            }
+        }
+        return st<=M;
+    }
+    int findPages(int arr[], int N, int M) 
+    {
+        //code here
+        int maxi=0,sum=0;
+        for(int i=0;i<N;i++)
+        {
+            sum+=arr[i];
+            maxi=max(maxi,arr[i]);
+        }
+    
+        int low=maxi;
+        int high=sum;
+        
+        int ans=0;
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(isPossible(arr,mid,N,M))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+        }
+        return ans;
+    }
+};
