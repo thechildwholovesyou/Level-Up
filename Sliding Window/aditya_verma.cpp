@@ -262,3 +262,47 @@ vector<int> Solution::slidingMaximum(const vector<int> &A, int k) {
     }
     return res;
 }
+
+
+// 239. Sliding Window Maximum
+// https://leetcode.com/problems/sliding-window-maximum/
+// optimised code for the above same problem as well
+
+class Solution {
+public:
+  vector<int> maxSlidingWindow(vector<int>& nums, int k) {
+        if( k>= nums.size())
+        {
+            return {*max_element(nums.begin(),nums.end())};
+        }
+        deque<int>  q;
+        int i=0;
+        int j=0;
+        vector<int> ans;
+        while(j<nums.size())
+        {
+            while(q.size() !=0 && q.back() < nums[j])
+            {
+                
+                q.pop_back();
+            }
+            q.push_back(nums[j]);
+            
+            if(j-i+1<k)
+                j++;
+            else if(j-i+1 ==k)
+            {
+                ans.push_back(q.front());
+                if(q.front() == nums[i])
+                {
+                    q.pop_front();
+                }
+                i++;
+                j++;
+            }
+        }
+        return ans;
+        
+            
+    }
+};
