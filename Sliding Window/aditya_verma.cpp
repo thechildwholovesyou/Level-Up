@@ -306,3 +306,38 @@ public:
             
     }
 };
+
+// Largest Subarray of sum K 
+// leetcode my self modified
+
+class Solution {
+public:
+    int subarraySum(vector<int>& nums, int k) {
+        int i=0;
+        int j=0;
+        int n=nums.size();
+        int maxi=INT_MIN;
+        int sum=0;
+        while(j<n)
+        {
+            sum+=nums[j];
+            if(sum<k)
+                j++;
+            else if(sum==k)
+            {
+                maxi=max(maxi,j-i+1);
+                j++;
+            }
+            else if(sum>k)
+            {
+                while(sum>k)
+                {
+                    sum-=nums[i];
+                    i++;
+                }
+                j++;
+            }
+        }
+        return maxi;
+    }
+};
