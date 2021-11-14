@@ -189,3 +189,48 @@ int solve(string s, string ana){
     }
     return ans;
 }
+
+// 438. Find All Anagrams in a String
+// https://leetcode.com/problems/find-all-anagrams-in-a-string/
+
+class Solution {
+public:
+    vector<int> helper(string s,string p)
+    {
+        vector<int> res;
+        int i=0;
+        int j=0;
+        int k=p.size();
+        int ans=0;
+        unordered_map<char,int> m;
+        for(auto ele:p)
+            m[ele]++;
+        
+        int cnt=m.size();
+        
+        while(j<s.size())
+        {
+            if(m.find(s[j])!=m.end())
+            {
+                m[s[j]]--;
+                if(m[s[j]]==0) cnt--;
+            }
+            if(j-i+1<k) j++;
+            else if(j-i+1==k)
+            {
+                if(cnt==0) res.push_back(i);
+                if(m.find(s[i])!=m.end())
+                {
+                    m[s[i]]++;
+                    if(m[s[i]]==1) cnt++;
+                }
+                i++;
+                j++;
+            }
+        }
+        return res;
+    }
+    vector<int> findAnagrams(string s, string p) {
+        return helper(s,p);
+    }
+};
