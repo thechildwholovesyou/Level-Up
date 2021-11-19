@@ -493,3 +493,62 @@ public:
         return true;
     }
 };
+
+// 886. Possible Bipartition
+// https://leetcode.com/problems/possible-bipartition/
+
+class Solution {
+public:
+    
+    bool helper(int src,vector<vector<int>>& graph, vector<int>&color)
+    {
+        queue<int> q;
+        q.push(src);
+        color[src]=1;
+        while(!q.empty())
+        {
+            int node=q.front();
+            q.pop();
+            
+            for(auto i:graph[node])
+            {
+                if(color[i]==-1)
+                {
+                    color[i]=1-color[node];
+                    q.push(i);
+                }
+                else if(color[i]==color[node])
+                    return false;
+            }
+        }
+        return true;
+    }
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int>color(n+1,-1);
+        
+        for(int i=0;i<n;i++)
+        {
+            if(color[i]==-1)
+            {
+                if(!helper(i,graph,color))
+                    return false;
+            }
+        }
+        return true;
+    }
+    
+    bool possibleBipartition(int n, vector<vector<int>>& dislikes) {
+        vector<vector<int>>graph(n+1);
+        for(auto ele:dislikes)
+        {
+            int u=ele[0];
+            int v=ele[1];
+            graph[u].push_back(v);
+            graph[v].push_back(u);
+        }
+        
+        return isBipartite(graph);
+        
+    }
+};
