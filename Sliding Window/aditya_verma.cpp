@@ -86,7 +86,7 @@ vector<long long> printFirstNegativeInteger(long long int A[],long long int N, l
           v.push_back(0);
           if(l.front()==arr[i] && l.size()>0)
           l.pop_front();
-         i++;j++;
+            i++;j++;
            
        }
    }

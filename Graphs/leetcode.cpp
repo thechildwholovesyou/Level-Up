@@ -445,7 +445,51 @@ int main(){
         ans+=smallAns[smallAns.size()-1]*smallAns[0];
     }
     cout<<ans;
-    
-
    
 }
+
+// 785. Is Graph Bipartite?
+// https://leetcode.com/problems/is-graph-bipartite/
+
+class Solution {
+public:
+    
+    bool helper(int src,vector<vector<int>>& graph, vector<int>&color)
+    {
+        queue<int> q;
+        q.push(src);
+        color[src]=1;
+        while(!q.empty())
+        {
+            int node=q.front();
+            q.pop();
+            
+            for(auto i:graph[node])
+            {
+                if(color[i]==-1)
+                {
+                    color[i]=1-color[node];
+                    q.push(i);
+                }
+                else if(color[i]==color[node])
+                    return false;
+            }
+        }
+        return true;
+    }
+    
+    bool isBipartite(vector<vector<int>>& graph) {
+        int n=graph.size();
+        vector<int>color(n+1,-1);
+        
+        for(int i=0;i<n;i++)
+        {
+            if(color[i]==-1)
+            {
+                if(!helper(i,graph,color))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
