@@ -753,3 +753,44 @@ public:
         return mat;
     }
 };
+
+
+// 1514. Path with Maximum Probability
+// https://leetcode.com/problems/path-with-maximum-probability/
+
+class Solution {
+public:
+    double maxProbability(int n, vector<vector<int>>& edges, vector<double>& succProb, int start, int end) {
+        vector<vector<pair<int,double>>>graph(n);
+        
+        for(int i=0;i<edges.size();i++)
+        {
+            graph[edges[i][0]].push_back({edges[i][1], succProb[i]});
+            graph[edges[i][1]].push_back({edges[i][0], succProb[i]});
+        }
+        
+        priority_queue<pair<double,int>> pq;
+        vector<double> maxProb(n,0);
+        
+        pq.push({1.0,start});
+        maxProb[start]=1;
+        
+        while(!pq.empty())
+        {
+            double prevProb=pq.top().first;
+            int current=pq.top().second;
+            
+            pq.pop();
+            
+            for(auto ele:graph[current])
+            {
+                if(prevProb* ele.second > maxProb[ele.first])
+                {
+                    maxProb[ele.first]=prevProb*ele.second;
+                    pq.push({maxProb[ele.first],ele.first});
+                }
+            }
+        }
+        return maxProb[end];
+    }
+};
