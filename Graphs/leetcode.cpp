@@ -711,3 +711,45 @@ public:
         
     }
 };
+
+// 542. 01 Matrix
+// https://leetcode.com/problems/01-matrix/
+
+class Solution {
+public:
+    vector<vector<int>> updateMatrix(vector<vector<int>>& mat) {
+        queue<pair<int,int>> q;
+        for(int i=0;i<mat.size();i++)
+        {
+            for(int j=0;j<mat[0].size();j++)
+            {
+                if(mat[i][j]==0)
+                {
+                    q.push({i,j});
+                }
+                else
+                    mat[i][j]=-1;
+            }
+        }
+        
+        vector<vector<int>>dir{{0,1},{0,-1},{1,0},{-1,0}};
+        
+        while(!q.empty())
+        {
+            pair p=q.front();
+            q.pop();
+            for(auto ele:dir)
+            {
+                int r=p.first+ele[0];
+                int c=p.second+ele[1];
+                
+                if(r>=0 and c>=0 and r<mat.size() and c<mat[0].size() and mat[r][c]<0)
+                {
+                    q.push({r,c});
+                    mat[r][c]=mat[p.first][p.second]+1;
+                }
+            }
+        }
+        return mat;
+    }
+};
