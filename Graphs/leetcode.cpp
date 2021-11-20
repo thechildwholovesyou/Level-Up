@@ -590,3 +590,51 @@ public:
  		return res;
  	}
 };
+
+
+// 207. Course Schedule
+// https://leetcode.com/problems/course-schedule/
+
+class Solution {
+public:
+    
+    bool checkCycle(int src, vector<vector<int>>&graph,vector<bool>&vis,vector<bool>&dfsVis)
+    {
+        vis[src]=true;
+        dfsVis[src]=true;
+        
+        for(auto ele:graph[src])
+        {
+            if(!vis[ele]){
+                if(checkCycle(ele,graph,vis,dfsVis)) return true;
+            }
+            else if(dfsVis[ele])
+                return true;
+        }
+        dfsVis[src]=false;
+        return false;
+    }
+    
+    bool canFinish(int n, vector<vector<int>>& edges) {
+        if(n==0) return true;
+        
+        vector<vector<int>>graph(n);
+        for(int i=0;i<edges.size();i++)
+        {
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+        
+        vector<bool> vis(n,false);
+        vector<bool> dfsVis(n,false);
+        
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+            {
+                if(checkCycle(i,graph,vis,dfsVis))
+                    return false;
+            }
+        }
+        return true;
+    }
+};
