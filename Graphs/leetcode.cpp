@@ -552,3 +552,41 @@ public:
         
     }
 };
+
+// 802. Find Eventual Safe States
+// https://leetcode.com/problems/find-eventual-safe-states/
+
+ class Solution {
+ 	bool dfs(vector<vector<int>>& graph, int src, vector<int>& vis) {
+
+ 		if (vis[src])
+ 			return vis[src] == 1;
+
+ 		vis[src] = -1;
+
+ 		
+        for(auto ele:graph[src])
+        {
+            if(!dfs(graph,ele,vis)) return false;
+        }
+
+ 		vis[src] = 1;
+
+ 		return true;
+ 	}
+ public:
+ 	vector<int> eventualSafeNodes(vector<vector<int>>& graph) {
+        vector<int>res;
+        if(graph.size()==0) return res;
+
+ 		int n = graph.size();
+ 		vector<int>vis(n, 0);
+
+ 		for (int i=0;i<n;i++) {    
+ 			if (dfs(graph, i, vis))
+ 				res.push_back(i);
+ 		}
+
+ 		return res;
+ 	}
+};
