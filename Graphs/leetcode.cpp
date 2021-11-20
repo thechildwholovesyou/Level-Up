@@ -638,3 +638,76 @@ public:
         return true;
     }
 };
+
+// 210. Course Schedule II
+// https://leetcode.com/problems/course-schedule-ii/
+
+class Solution {
+public:
+    void dfs(int src,vector<vector<int>>&graph,vector<bool>&vis, stack<int>&s)
+    {
+        vis[src]=true;
+        for(auto ele:graph[src])
+        {
+            if(!vis[ele])
+                dfs(ele,graph,vis,s);
+        }
+        s.push(src);
+    }
+     bool checkCycle(int node, vector<vector<int>>&adj, int vis[], int dfsVis[]) {
+        vis[node] = 1; 
+        dfsVis[node] = 1; 
+        for(auto it : adj[node]) {
+            if(!vis[it]) {
+                if(checkCycle(it, adj, vis, dfsVis)) return true;
+            } else if(dfsVis[it]) {
+                return true; 
+            }
+        }
+        dfsVis[node] = 0; 
+        return false;
+    }
+    bool isCyclic(int N, vector<vector<int>>&adj) {
+	   int vis[N], dfsVis[N]; 
+	   memset(vis, 0, sizeof vis); 
+	   memset(dfsVis, 0, sizeof dfsVis); 
+	   
+	   for(int i = 0;i<N;i++) {
+	       if(!vis[i]) {
+	           // cout << i << endl; 
+	           if(checkCycle(i, adj, vis, dfsVis)) {
+	               return true; 
+	           }
+	       }
+	   }
+	   return false; 
+	}
+    vector<int> findOrder(int n, vector<vector<int>>& edges) {
+         vector<vector<int>>graph(n);
+        for(int i=0;i<edges.size();i++)
+        {
+            graph[edges[i][1]].push_back(edges[i][0]);
+        }
+         vector<int> res;
+        if(graph.size()==0) return res;
+        vector<bool> vis(n,false);
+        
+        if(isCyclic(n,graph)) return res;
+        
+        stack<int> s;
+        for(int i=0;i<n;i++)
+        {
+            if(!vis[i])
+                dfs(i,graph,vis,s);
+        }
+        
+        while(!s.empty())
+        {
+            res.push_back(s.top());
+            s.pop();
+        }
+        return res;
+    
+        
+    }
+};
