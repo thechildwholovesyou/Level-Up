@@ -81,3 +81,57 @@ class Solution{
     	return res;
     }
 };
+
+// Job Sequencing Problem
+// https://practice.geeksforgeeks.org/problems/job-sequencing-problem-1587115620/1#
+
+// struct Job 
+// { 
+//     int id;	 // Job Id 
+//     int dead; // Deadline of job 
+//     int profit; // Profit if job is over before or on deadline 
+// };
+
+class Solution 
+{
+    public:
+    //Function to find the maximum profit and the number of jobs done.
+    static bool comparator(Job a,Job b)
+    {
+        return(a.profit > b.profit);
+    }
+    vector<int> JobScheduling(Job arr[], int n) 
+    { 
+        // your code here
+       
+         vector<int> res;
+        sort(arr,arr+n,comparator);
+        
+        // find out the max deadline
+        int maxi=arr[0].dead;
+        for(int i=1;i<n;i++){
+            maxi=max(maxi,arr[i].dead);
+        }
+        // create an array to store the ordering of jobs
+        vector<int> slot(maxi+1,-1);
+        int cnt=0;
+        int total_profit=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=arr[i].dead;j>0;j--)
+            {
+                if(slot[j]==-1)
+                {
+                    slot[j]=i;
+                    cnt++;
+                    total_profit+=arr[i].profit;
+                    break;
+                }
+            }
+        }
+        res.push_back(cnt);
+        res.push_back(total_profit);
+        return res;
+    } 
+};
