@@ -179,3 +179,49 @@ int main()
 	findMin(n);
 	return 0;
 }
+
+
+// Fractional Knapsack 
+// https://practice.geeksforgeeks.org/problems/fractional-knapsack-1587115620/1
+
+/*struct Item{
+    int value;
+    int weight;
+};
+*/
+
+bool comparator(struct Item a, struct Item b)
+{
+    double x=(double)a.value/(double)a.weight;
+    double y=(double)b.value/(double)b.weight;
+    return x>y;
+}
+
+class Solution
+{
+    public:
+    //Function to get the maximum total value in the knapsack.
+    double fractionalKnapsack(int W, Item arr[], int n)
+    {
+        // Your code here
+        sort(arr,arr+n,comparator);
+        int currWeight=0;
+        double finalValue=0.0;
+        
+        for(int i=0;i<n;i++)
+        {
+            if(currWeight+arr[i].weight<=W){
+                currWeight+=arr[i].weight;
+                finalValue+=arr[i].value;
+            }
+            else
+            {
+                int remain=W-currWeight;
+                finalValue+=(arr[i].value/(double)arr[i].weight)*(double)remain;
+                break;
+            }
+        }
+        return finalValue;
+    }
+        
+};

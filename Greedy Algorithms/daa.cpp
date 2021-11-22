@@ -71,3 +71,67 @@ int main()
     }
     return 0;
 }
+
+// job sequencing 
+#include<bits/stdc++.h>
+using namespace std;
+struct Job{
+    char id;
+    int dead;
+    int profit;
+};
+bool comparator(struct Job a, struct Job b){
+    return (a.profit>b.profit);
+}
+int getAns(struct Job arr[],int n)
+{
+    sort(arr,arr+n,comparator);
+    // find out the max deadline
+    int maxi=arr[0].dead;
+    for(int i=1;i<n;i++)
+    {
+        maxi=max(maxi,arr[i].dead);
+    }
+    // create an array to store the ordering of jobs
+    vector<int>slot(maxi+1,-1);
+    int cnt=0;
+    int total_profit=0;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=arr[i].dead;j>0;j--)
+        {
+            if(slot[j]==-1)
+            {
+                slot[j]=i;
+                cnt++;
+                total_profit+=arr[i].profit;
+                break;
+            }
+        }
+    }
+    return total_profit;
+}
+
+int main()
+{
+    int t;
+    cin>>t;
+    while(t--)
+    {
+        int n;
+        cin>>n;
+        struct Job arr[n];
+        for(int i=0;i<n;i++)
+        {
+            char c;
+            int d,p;
+            cin>>c>>d>>p;
+            arr[i].id=c;
+            arr[i].dead=d;
+            arr[i].profit=p;
+        }
+        int x=getAns(arr,n);
+        cout<<x<<endl;
+    }
+    return 0;
+}
