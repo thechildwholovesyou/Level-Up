@@ -25,6 +25,20 @@ void insertionSort(vector<int>&nums)
         }
     }
 }
+void selectionSort(vector<int>&arr)
+{
+    int n=arr.size();
+    for(int i=0;i<n-1;i++)
+    {
+        int mint_idx=i;
+        for(int j=i+1;j<n;j++)
+        {
+            if(arr[j]<arr[mint_idx])
+                mint_idx=j;
+        }
+        swap(arr[mint_idx],arr[i]);
+    }
+}
 
 int main()
 {
