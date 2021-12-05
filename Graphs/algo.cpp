@@ -1,86 +1,86 @@
 // // BFS ALGORITHM
 
-// #include<bits/stdc++.h>
-// using namespace std;
+#include<bits/stdc++.h>
+using namespace std;
 
-// vector<int> bfs(int V,vector<int>adj[])
-// {
-//     vector<int> res;
-//     vector<int> vis(V,0);
-//     queue<int> q;
-//     q.push(0);
-//     vis[0]=1;
+vector<int> bfs(int V,vector<int>adj[])
+{
+    vector<int> res;
+    vector<int> vis(V,0);
+    queue<int> q;
+    q.push(0);
+    vis[0]=1;
 
-//     while(!q.empty())
-//     {
-//         int node=q.front();
-//         q.pop();
-//         res.push_back(node);
-//         for(auto ele:adj[node])
-//         {
-//             if(!vis[ele])
-//             {
-//                 q.push(ele);
-//                 vis[ele]=1;
-//             }
-//         }
-//     }
-//     return res;
-// }
-
-
-// int main()
-// {
-//     int t;
-//     cin>>t;
-
-//     while(t--)
-//     {
-//         int V,E;
-//         cin>>V>>E;
-
-//         vector<int> adj[V];
-//         for(int i=0;i<E;i++)
-//         {
-//             int u,v;
-//             cin>>u>>v;
-//             adj[u].push_back(v);
-//             adj[v].push_back(u);
-//         }
-//         vector<int> ans=bfs(V,adj);
-//         for(auto ele:ans)
-//             cout<<ele<<" ";
-//         cout<<endl;
-//     }
-//     return 0;
-// }
-
-// // DFS ALGORITHM 
+    while(!q.empty())
+    {
+        int node=q.front();
+        q.pop();
+        res.push_back(node);
+        for(auto ele:adj[node])
+        {
+            if(!vis[ele])
+            {
+                q.push(ele);
+                vis[ele]=1;
+            }
+        }
+    }
+    return res;
+}
 
 
+int main()
+{
+    int t;
+    cin>>t;
 
-// void dfs_helper(int src, vector<int>&vis, vector<int> adj[], vector<int>&res)
-// {
-//     res.push_back(src);
-//     vis[src]=1;
-//     for(auto ele:adj[src])
-//     {
-//         if(!vis[ele])
-//             dfs_helper(ele,vis,adj,res);
-//     }
-// }
+    while(t--)
+    {
+        int V,E;
+        cin>>V>>E;
 
-// vector<int> dfs(int V,vector<int>adj[])
-// {
-//     vector<int> res;
-//     vector<int> vis(V+1,0);
-//     for(int i=1;i<=V;i++)
-//     {
-//         if(!vis[i])
-//             dfs_helper(i,vis,adj,res);
-//     }
-//     return res;
-// }
+        vector<int> adj[V];
+        for(int i=0;i<E;i++)
+        {
+            int u,v;
+            cin>>u>>v;
+            adj[u].push_back(v);
+            adj[v].push_back(u);
+        }
+        vector<int> ans=bfs(V,adj);
+        for(auto ele:ans)
+            cout<<ele<<" ";
+        cout<<endl;
+    }
+    return 0;
+}
+
+// DFS ALGORITHM 
+
+
+
+void dfs_helper(int src, vector<int>&vis, vector<int> adj[], vector<int>&res)
+{
+    res.push_back(src);
+    vis[src]=1;
+    for(auto ele:adj[src])
+    {
+        if(!vis[ele])
+            dfs_helper(ele,vis,adj,res);
+    }
+}
+
+vector<int> dfs(int V,vector<int>adj[])
+{
+    vector<int> res;
+    vector<int> vis(V+1,0);
+    for(int i=1;i<=V;i++)
+    {
+        if(!vis[i])
+            dfs_helper(i,vis,adj,res);
+    }
+    return res;
+}
 
 
 // DJISKTRA ALGORITHM
