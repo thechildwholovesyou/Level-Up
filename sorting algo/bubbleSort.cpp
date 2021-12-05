@@ -13,6 +13,18 @@ void bubbleSort(vector<int>&nums)
         }
     }
 }
+void insertionSort(vector<int>&nums)
+{
+    int n=nums.size();
+    for(int i=0;i<n;i++)
+    {
+        for(int j=i-1;j>=0;j--)
+        {
+            if(nums[j]>nums[j+1])
+                swap(nums[j],nums[j+1]);
+        }
+    }
+}
 
 int main()
 {
