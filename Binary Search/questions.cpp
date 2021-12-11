@@ -136,4 +136,41 @@ public:
 	}
 };
 
+// find rotation count in rotated sorted array
+#include<bits/stdc++.h>
+using namespace std;
+int get_ans(vector<int>&nums)
+{
+    int s=0;
+    int e=nums.size()-1;
+    int n=nums.size();
+    while(s<=e)
+    {
+        int mid=s+(e-s)/2;
+        int prev=(mid+n-1)%n;
+        int next=(mid+1)%n;
+        if(nums[mid]<=nums[prev] and nums[mid]<=nums[next])
+            return mid;
+        else if(nums[e]<=nums[mid])
+            s=mid+1;
+        else if(nums[mid]<=nums[e])
+            e=mid-1;
+    }
+    return 0;
+}
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int> v;
+    for(int i=0;i<n;i++)
+    {
+        int data;
+        cin>>data;
+        v.push_back(data);
+    }
+    int x=get_ans(v);
+    cout<<x<<endl;
+}
+
 
