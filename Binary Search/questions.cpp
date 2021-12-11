@@ -195,3 +195,60 @@ public:
         return flag;
     }
 };
+
+// 33. Search in Rotated Sorted Array
+// https://leetcode.com/problems/search-in-rotated-sorted-array/
+
+class Solution {
+public:
+    int min_idx(vector<int>&nums)
+    {
+        int n=nums.size();
+        int s=0;
+        int e=n-1;
+        if(nums[s]<nums[e]) return 0;
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            int prev=(mid+n-1)%n;
+            int next=(mid+1)%n;
+            if(nums[mid]<=nums[prev] and nums[mid]<=nums[next]) return mid;
+            else if(nums[e]<=nums[mid])
+                s=mid+1;
+            else if(nums[mid]<=nums[e])
+                e=mid-1;
+        }
+        return 0;
+    }
+    int binary_search(vector<int>&nums, int low,int high,int target)
+    {
+        int s=low;
+        int e=high;
+        int ans=-1;
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(nums[mid]==target)
+            {
+                ans=mid;
+                return ans;
+            }
+            else if(nums[mid]<target) s=mid+1;
+            else if(nums[mid]>target)
+                e=mid-1;
+        }
+        return ans;
+    }
+    int search(vector<int>& nums, int target) {
+        // first find the min element idx
+        int n=nums.size();
+        int midx=min_idx(nums);
+        int a=binary_search(nums,0,midx-1,target);
+        int b=binary_search(nums,midx,n-1,target);
+        
+        if(a==b) return a;
+        else if(a==-1) return b;
+        return a;
+        
+    }
+};
