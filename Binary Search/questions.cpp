@@ -173,4 +173,25 @@ int main()
     cout<<x<<endl;
 }
 
+// 1752. Check if Array Is Sorted and Rotated
+// https://leetcode.com/problems/check-if-array-is-sorted-and-rotated/
 
+class Solution {
+public:
+    bool check(vector<int>& nums) {
+        bool flag=false;
+        int n=nums.size();
+        int cnt=0;
+        for(int i=0;i<n;i++)
+        {
+            int curr=i;
+            int next=(i+1)%n;
+            if(nums[curr]<=nums[next]) continue;
+            else
+                cnt++;
+        }
+        if(cnt<=1)
+            flag=true;
+        return flag;
+    }
+};
