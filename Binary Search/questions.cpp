@@ -341,3 +341,48 @@ public:
         return res;
     }
 };
+
+// 1552. Magnetic Force Between Two Balls
+// https://leetcode.com/problems/magnetic-force-between-two-balls/
+// slight variation of aggressive cows
+
+class Solution {
+public:
+    int isValid(vector<int>&nums,int dist,int k)
+    {
+        int coord=nums[0];
+        int cnt=1;
+        for(int i=1;i<nums.size();i++)
+        {
+            if((nums[i]-coord)>=dist)
+            {
+                cnt++;
+                if(cnt==k) return true;
+                coord=nums[i];
+            }
+        }
+        //if(cnt==k) return true;
+        return false;
+    }
+    int maxDistance(vector<int>& nums, int k) {
+        sort(nums.begin(),nums.end());
+        int n=nums.size();
+        long long  s=0;
+        long long  e=1000000000;
+        
+        long long  res=0;
+        
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(isValid(nums,mid,k))
+            {
+                res=mid;
+                s=mid+1;
+            }
+            else
+                e=mid-1;
+        }
+        return res;
+    }
+};
