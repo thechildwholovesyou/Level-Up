@@ -295,3 +295,49 @@ public:
         return res;
     }
 };
+
+// 410. Split Array Largest Sum
+// https://leetcode.com/problems/split-array-largest-sum/
+
+class Solution {
+public:
+    int isValid(vector<int>&nums, int mx,int k)
+    {
+        int p=1; // ek partition to banta hai 
+        int sum=0; // subarray sum 
+        for(int i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+            if(sum>mx)
+            {
+                p++;
+                sum=nums[i];
+            }
+        }
+        if(p<=k) return true;
+        return false;
+    }
+    int splitArray(vector<int>& nums, int k) {
+        int n=nums.size();
+        int sum=0;
+        for(auto ele:nums)
+            sum+=ele;
+        int s=*max_element(nums.begin(),nums.end());
+        int e=sum;
+        
+        int res=-1;
+        
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(isValid(nums,mid,k))
+            {
+                res=mid;
+                e=mid-1;
+            }
+            else 
+                s=mid+1;
+        }
+        return res;
+    }
+};
