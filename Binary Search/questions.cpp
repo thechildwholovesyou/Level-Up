@@ -252,3 +252,46 @@ public:
         
     }
 };
+
+// 1011. Capacity To Ship Packages Within D Days
+// https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+class Solution {
+public:
+    bool isValid(vector<int>&nums,int wt,int k)
+    {
+        int days=1;
+        int sum=0;
+        for(int i=0;i<nums.size();i++)
+        {
+            sum+=nums[i];
+            if(sum>wt)
+            {
+                days++;
+                sum=nums[i];
+            }
+        }
+        if(days<=k) return true;
+        return false;
+    }
+    int shipWithinDays(vector<int>& nums, int k) {
+        int sum=0;
+        for(auto ele:nums)
+            sum+=ele;
+        int s=*max_element(nums.begin(),nums.end());
+        int e=sum;
+        int res=-1;
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(isValid(nums,mid,k))
+            {
+                res=mid;
+                e=mid-1;
+            }
+            else
+                s=mid+1;
+        }
+        return res;
+    }
+};
