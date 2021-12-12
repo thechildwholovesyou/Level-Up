@@ -386,3 +386,35 @@ public:
         return res;
     }
 };
+
+// 1300. Sum of Mutated Array Closest to Target
+// https://leetcode.com/problems/sum-of-mutated-array-closest-to-target/
+class Solution {
+public:
+    int diff(int mid,vector<int>&nums,int target)
+    {
+        int sum=0;
+        for(auto ele:nums)
+        {
+            sum+=min(ele,mid);
+        }
+        return abs(target-sum);
+    }
+    int findBestValue(vector<int>& nums, int target) {
+        int n=nums.size();
+        int s=0;
+        int e=target;
+        
+        while(s<=e)
+        {
+            int mid=s+(e-s)/2;
+            if(diff(mid,nums,target)<=diff(mid+1,nums,target))
+            {
+                e=mid-1;
+            }
+            else
+                s=mid+1;
+        }
+        return s;
+    }
+};
