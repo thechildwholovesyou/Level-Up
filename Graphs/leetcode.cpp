@@ -836,3 +836,32 @@ public:
         return ans;
     }
 };
+
+// 733. Flood Fill
+// https://leetcode.com/problems/flood-fill/
+
+class Solution {
+public:
+    void dfs(vector<vector<int>>&image, int sr,int sc,vector<vector<int>>&dir, int newColor,int prevColor)
+    {
+       
+        image[sr][sc] = newColor;
+        
+        for(auto d: dir)
+        {
+            int r=sr+d[0];
+            int c=sc+d[1];
+            if(r>=0 and c>=0 and r<image.size() and c<image[0].size() and image[r][c]==prevColor)
+            {
+                dfs(image, r,c,dir,newColor,prevColor);
+            }
+        }
+    }
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int newColor) {
+       
+        if(image[sr][sc]==newColor) return image;
+        vector<vector<int>>dir{{0,1},{0,-1},{1,0},{-1,0}};
+        dfs(image, sr,sc,dir,newColor, image[sr][sc]);
+        return image;
+    }
+};
