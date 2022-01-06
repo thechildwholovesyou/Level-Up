@@ -865,3 +865,45 @@ public:
         return image;
     }
 };
+
+// 1905. Count Sub Islands
+// https://leetcode.com/problems/count-sub-islands/
+
+class Solution {
+public:
+    vector<vector<int>> dir{{0,1},{0,-1},{1,0},{-1,0}};
+    int dfs(vector<vector<int>>& grid1, vector<vector<int>>& grid2, int sr,int sc)
+    {
+        grid2[sr][sc]=0;
+        bool res=true;
+        for(auto d: dir)
+        {
+            int r=sr+d[0];
+            int c=sc+d[1];
+            if(r>=0 and c>=0 and r<grid1.size() and c<grid1[0].size() and grid2[r][c]==1)
+            {
+                // phele cal lagao then res ko && kro 
+                res=dfs(grid1,grid2,r,c) && res;
+            }
+        }
+        // last me khud ko b check kro ki ye subisland ka part h ki nahi 
+        return res && grid1[sr][sc]==1;
+    }
+    int countSubIslands(vector<vector<int>>& grid1, vector<vector<int>>& grid2) {
+        int n=grid1.size();
+        int m=grid1[0].size();
+        
+        int cnt=0;
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(grid2[i][j]==1)
+                {
+                    cnt+=dfs(grid1, grid2, i,j)? 1: 0;
+                }
+            }
+        }
+        return cnt;
+    }
+};
