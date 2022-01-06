@@ -907,3 +907,56 @@ public:
         return cnt;
     }
 };
+
+//  994. Rotting Oranges
+// https://leetcode.com/problems/rotting-oranges/
+
+class Solution {
+public:
+    int orangesRotting(vector<vector<int>>& grid) {
+        //first count how many fresh oranges are there and add rotten oranges into a list 
+        if(grid.size()==0) return 0;
+        queue<pair<int,int>> q;
+        int freshOranges=0;
+        for(int i=0;i<grid.size();i++)
+        {
+            for(int j=0;j<grid[0].size();j++)
+            {
+                if(grid[i][j]==1) freshOranges++;
+                else if(grid[i][j]==2)
+                {
+                    q.push({i,j});
+                }
+            }
+        }
+        
+        if(freshOranges==0) return 0;
+        vector<vector<int>> dir{{0,1},{0,-1},{1,0},{-1,0}};
+        int time=-1;
+        while(!q.empty())
+        {
+            int size=q.size();
+            time++;
+            while(size--)
+            {
+                auto p=q.front();
+                q.pop();
+                for(auto d: dir)
+                {
+                    int r=p.first + d[0];
+                    int c=p.second + d[1];
+                    
+                if(r>=0 and c>=0 and r<grid.size() and c<grid[0].size() and grid[r][c]==1)
+                {
+                    freshOranges--;
+                    q.push({r,c});
+                    grid[r][c]=2;
+                }
+                }
+            }
+        }
+        
+        return freshOranges==0? time : -1;
+        
+    }
+};
