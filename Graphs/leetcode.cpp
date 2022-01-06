@@ -960,3 +960,61 @@ public:
         
     }
 };
+
+// 1091. Shortest Path in Binary Matrix
+// https://leetcode.com/problems/shortest-path-in-binary-matrix/
+
+class Solution {
+public:
+    int shortestPathBinaryMatrix(vector<vector<int>>& grid) {
+        if(grid[0][0]==1) return -1;
+        int n=grid.size();
+        int m=grid[0].size();
+        if(grid[n-1][m-1]==1) return -1;
+        
+        vector<vector<int>> dir{{0,1},{0,-1},{1,0},{-1,0},{1,1},{-1,-1},{-1,1},{1,-1}};
+       
+        //int cnt=0;
+        queue<pair<int,int>> q;
+       
+        // count 0's 
+        // int zeroes=0;
+        // for(int i=0;i<n;i++)
+        // {
+        //     for(int j=0;j<m;j++)
+        //     {
+        //         if(grid[i][j]==0)
+        //         {
+        //             zeroes++;
+        //             q.push({i,j});
+        //         }
+        //     }
+        // }
+        // if(zeroes==0) return -1;
+        q.push({0,0});
+        int cnt=1;
+        while(!q.empty())
+        {
+            int size=q.size();
+            while(size--)
+            {
+                auto p=q.front();
+                q.pop();
+                if(p.first ==n-1 and p.second ==m-1) return cnt;
+                for(auto d: dir)
+                {
+                    int r=p.first +d[0];
+                    int c=p.second +d[1];
+                    
+                    if(r>=0 and c>=0 and r<n and c<m and grid[r][c]==0) 
+                    {
+                        q.push({r,c});
+                        grid[r][c]=1;
+                    }
+                }
+            }
+            cnt++;
+        }
+        return -1;  
+    }
+};
