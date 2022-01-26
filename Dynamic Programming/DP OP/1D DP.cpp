@@ -154,3 +154,162 @@ public:
         return res;
     }
 };
+
+// https://leetcode.com/problems/house-robber/
+//rec
+
+class Solution {
+public:
+    int helper(vector<int>&nums, int idx)
+    {
+        if(idx>=nums.size()) return 0;
+        return max(helper(nums, idx+2)+nums[idx], helper(nums, idx+1));
+    }
+    int rob(vector<int>& nums) {
+        return helper(nums,0);
+    }
+};
+
+// memo 
+class Solution {
+public:
+    int helper(vector<int>&nums, int idx,vector<int>&dp)
+    {
+        if(idx>=nums.size()) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        return dp[idx]=max(helper(nums, idx+2,dp)+nums[idx], helper(nums, idx+1,dp));
+    }
+    int rob(vector<int>& nums) {
+        vector<int>dp(nums.size()+1, -1);
+        return helper(nums,0,dp);
+    }
+};
+
+// https://leetcode.com/problems/perfect-squares/
+// rec 
+
+class Solution {
+public:
+    int helper(vector<int>&nums, int idx,vector<int>&dp)
+    {
+        if(idx>=nums.size()) return 0;
+        if(dp[idx]!=-1) return dp[idx];
+        return dp[idx]=max(helper(nums, idx+2,dp)+nums[idx], helper(nums, idx+1,dp));
+    }
+    int rob(vector<int>& nums) {
+        vector<int>dp(nums.size()+1, -1);
+        return helper(nums,0,dp);
+    }
+};
+
+// memo 
+
+class Solution {
+public:
+    int helper(int n,vector<int>&dp)
+    {
+        if(n==0) return dp[0]=0;
+        if(dp[n]!=-1) return dp[n];
+        int mini= INT_MAX;
+        for(int i=1;i*i<=n;i++)
+        {
+            int tempAns = helper(n-i*i,dp)+1;
+            mini=min(mini, tempAns);
+        }
+        return dp[n]=mini;
+    }
+    int numSquares(int n) {
+        vector<int> dp(n+1,-1);
+        return helper(n,dp);
+    }
+};
+
+// https://leetcode.com/problems/coin-change/
+
+class Solution {
+public:
+    int coinChange_rec(vector<int>& coins, int amount, vector<int>&dp)
+    {
+        if(amount<0) return -1;
+        
+        if(amount==0)
+        {
+           return 0;
+        }
+        int res=INT_MAX;
+        if(dp[amount]!=-1) return dp[amount];
+        for(int i=0;i<coins.size();i++)
+        {
+            if(coins[i]<=amount){
+                int smallAns=coinChange_rec(coins, amount-coins[i],dp);
+                if(smallAns!=INT_MAX) res=min(res, smallAns+1);
+            }
+        }
+        return dp[amount]=res;
+    }
+    int coinChange(vector<int>& coins, int amount) {
+      
+        vector<int> dp(amount+1, -1);
+        int ans =coinChange_rec(coins, amount, dp);
+    
+        
+        if(ans==INT_MAX) return -1;
+        return ans;
+    }
+};
+
+// https://leetcode.com/problems/coin-change-2/
+// rec
+
+class Solution {
+public:
+    int helper(int amt, vector<int>&coins, int n)
+    {
+        if(amt==0) return 1;
+        if(n==0) return 0;
+        if(coins[n-1]<=amt)
+        {
+            return helper(amt-coins[n-1], coins, n)+helper(amt, coins, n-1);
+        }
+        return helper(amt,coins, n-1);
+    }
+    int change(int amount, vector<int>& coins) {
+        return helper(amount, coins, coins.size());
+    }
+};
+
+// tabu 
+
+class Solution {
+public:
+    int helper(int amt, vector<int>&coins, int n,vector<vector<int>>&dp)
+    {
+        
+        
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0) dp[i][j]=0;
+                if(j==0) dp[i][j]=1;
+            }
+        }
+        
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(coins[i-1]<=j)
+                    dp[i][j]=dp[i][j-coins[i-1]]+dp[i-1][j];
+                else
+                    dp[i][j]=dp[i-1][j];
+            }
+        }
+        return dp[dp.size()-1][dp[0].size()-1];
+    }
+    
+    int change(int amount, vector<int>& coins) {
+        vector<vector<int>>dp(coins.size()+1, vector<int>(amount+1,-1));
+        return helper(amount, coins, coins.size(), dp);
+    }
+};
