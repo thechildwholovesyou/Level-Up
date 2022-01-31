@@ -313,3 +313,47 @@ public:
         return helper(amount, coins, coins.size(), dp);
     }
 };
+
+//
+// rec 
+
+class Solution {
+public:
+    int helper(int n)
+    {
+        if(n==0) return 0;
+        if(n==1) return 1;
+        if(n%2==0) return helper(n/2);
+        else return helper(n/2)+1;
+    }
+    vector<int> countBits(int n) {
+       vector<int> v(n+1);
+        for(int i=0;i<=n;i++)
+        {
+            v[i]=helper(i);
+        }
+        return v;
+    }
+};
+
+// memmo 
+
+class Solution {
+public:
+    int helper(int n,vector<int>&dp)
+    {
+        if(n==0) return dp[0]=0;
+        if(n==1) return dp[1]=1;
+        if(dp[n]!=-1) return dp[n];
+        if(n%2==0) return helper(n/2,dp);
+        else return helper(n/2,dp)+1;
+    }
+    vector<int> countBits(int n) {
+       vector<int> v(n+1,-1);
+        for(int i=0;i<=n;i++)
+        {
+            v[i]=helper(i,v);
+        }
+        return v;
+    }
+};
