@@ -133,7 +133,7 @@ public:
 };
 
 
-//
+// https://leetcode.com/problems/container-with-most-water/
 // Brute force O(n*n)
 
 class Solution {
@@ -172,4 +172,105 @@ public:
         }
         return maxi;
     }
+};
+
+// https://leetcode.com/problems/squares-of-a-sorted-array/
+// O(n) solution using 2 pointers 
+
+class Solution {
+public:
+    vector<int> sortedSquares(vector<int>& nums) {
+        int n=nums.size();
+        int i=0;
+        int j=n-1;
+        
+        vector<int> res(n, 0);
+        int k=n-1;
+        while(i<=j)
+        {
+            if((nums[i]*nums[i]) <=(nums[j]*nums[j]))
+            {
+                res[k]=nums[j]*nums[j];
+                j--;
+            }
+            else
+            {
+                res[k]=nums[i]*nums[i];
+                i++;
+            }
+            k--;
+        }
+        return res;
+    }
+};
+
+//238. Product of Array Except Self 
+// https://leetcode.com/problems/product-of-array-except-self/
+// brute force approach 
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> res(n, 1);
+        for(int i=0;i<n;i++)
+        {
+           for(int j=0;j<n;j++)
+           {
+               if(i==j) continue;
+               res[j]*=nums[i];
+           }
+        }
+        return res;
+    }
+};
+
+
+// optimised approach => with division operator => runtime error 
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int product = 1;
+        for(auto ele: nums)
+            product*=ele;
+        int n=nums.size();
+        
+        for(int i=0;i<n;i++)
+        {
+            nums[i]=product/nums[i];
+        }
+        return nums;
+    }
+};
+
+// optimised O(n)
+
+class Solution {
+public:
+    vector<int> productExceptSelf(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> left(n,1),right(n,1);
+        left[0]=nums[0];
+        
+        for(int i=1;i<n;i++)
+        {
+            left[i]=nums[i]*left[i-1];
+        }
+        right[n-1]=nums[n-1];
+        for(int i=n-2;i>=0;i--)
+        {
+            right[i]=nums[i]*right[i+1];
+        }
+        
+        // fill array 
+        vector<int> res(n,1);
+        for(int i=0;i<n;i++)
+        {
+            // pes => product aray itself 
+            int pes = (i==0?1: left[i-1]) *(i==n-1?1: right[i+1]);
+            res[i]=pes;
+        }
+        return res;
+    }
+    
 };
