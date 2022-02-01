@@ -409,3 +409,108 @@ public:
         return helper(n,dp);
     }
 };
+
+// 416. Partition Equal Subset Sum
+// https://leetcode.com/problems/partition-equal-subset-sum/
+// rec 
+
+class Solution {
+public:
+    bool helper(vector<int>&nums, int target,int n)
+    {
+        if(target==0) return true;
+        if(n==0) return false;
+        
+        bool ans = false;
+        if(nums[n-1]<=target)
+        {
+            bool a1=helper(nums, target-nums[n-1], n-1);
+            bool a2= helper(nums, target,n-1);
+            ans = a1 or a2;
+        }
+        else
+            return helper(nums, target,n-1);
+        return ans;
+    }
+    bool canPartition(vector<int>& nums) {
+        int n=nums.size();
+        int sum=0;
+        for(auto ele: nums)
+            sum+=ele;
+        if(sum%2!=0) return false;
+        return helper(nums, sum/2,n);
+    }
+};
+
+// memo 
+
+class Solution {
+public:
+    bool helper(vector<int>&nums, int target,int n,vector<vector<int>>&dp)
+    {
+        if(target==0) return true;
+        if(n==0) return false;
+        
+        bool ans = false;
+        if(dp[n][target]!=-1) return dp[n][target];
+        if(nums[n-1]<=target)
+        {
+            bool a1=helper(nums, target-nums[n-1], n-1,dp);
+            bool a2= helper(nums, target,n-1,dp);
+            ans = a1 or a2;
+        }
+        else
+            return helper(nums, target,n-1,dp);
+        return dp[n][target]=ans;
+    }
+    bool canPartition(vector<int>& nums) {
+        int n=nums.size();
+        int sum=0;
+        for(auto ele: nums)
+            sum+=ele;
+        if(sum%2!=0) return false;
+        vector<vector<int>>dp(n+1, vector<int>(sum/2+1,-1));
+        return helper(nums, sum/2,n,dp);
+    }
+};
+
+// tabu 
+
+class Solution {
+public:
+    bool helper(vector<int>&nums, int target,int n,vector<vector<int>>&dp)
+    {
+
+        
+        for(int i=0;i<dp.size();i++)
+        {
+            for(int j=0;j<dp[0].size();j++)
+            {
+                if(i==0) dp[i][j]=0;
+                if(j==0) dp[i][j]=1;
+            }
+        }
+        for(int i=1;i<dp.size();i++)
+        {
+            for(int j=1;j<dp[0].size();j++)
+            {
+                if(nums[i-1]<=j)
+                {
+                    dp[i][j]= dp[i-1][j-nums[i-1]] || dp[i-1][j];
+                }
+                else
+                    dp[i][j]=dp[i-1][j];
+            }
+        }
+        return dp[dp.size()-1][dp[0].size()-1];
+    }
+    bool canPartition(vector<int>& nums) {
+        int n=nums.size();
+        int sum=0;
+        for(auto ele: nums)
+            sum+=ele;
+        if(sum%2!=0) return false;
+        vector<vector<int>>dp(n+1, vector<int>(sum/2+1,-1));
+        return helper(nums, sum/2,n,dp);
+    }
+};
