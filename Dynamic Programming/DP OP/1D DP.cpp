@@ -357,3 +357,55 @@ public:
         return v;
     }
 };
+
+// 343. Integer Break
+// https://leetcode.com/problems/integer-break/
+
+// rec 
+
+class Solution {
+public:
+    int helper(int n)
+    {
+        if(n==1) return 1;
+        int ans = 1*(n-1);
+        int i=1;
+        while(i<n)
+        {
+            int a=i;
+            int b=n-i;
+            int prod=a*max(b,helper(b));
+            ans = max(ans, prod);
+            i++;
+        }
+        return ans;
+    }
+    int integerBreak(int n) {
+        return helper(n);
+    }
+};
+
+// memo 
+
+class Solution {
+public:
+    int helper(int n,vector<int>&dp)
+    {
+        int maxi = INT_MIN;
+        int i=1;
+        if(dp[n]!=-1) return dp[n];
+        while(i<=n)
+        {
+            int a=i;
+            int b=n-i;
+            int tempAns = a*max(b,helper(b,dp));
+            maxi=max(maxi, tempAns);
+            i++;
+        }
+        return dp[n]=maxi;
+    }
+    int integerBreak(int n) {
+        vector<int> dp(n+1,-1);
+        return helper(n,dp);
+    }
+};
