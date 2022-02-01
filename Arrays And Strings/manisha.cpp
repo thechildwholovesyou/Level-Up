@@ -404,3 +404,28 @@ public:
         return s;
     }
 };
+
+// 537. Complex Number Multiplication
+// https://leetcode.com/problems/complex-number-multiplication/
+
+class Solution {
+public:
+    pair<int,int> helper(string s)
+    {
+        int i=s.find('+');
+        double real = stoi(s.substr(0,i));
+        double imaginary = stoi(s.substr(i+1, s.size()-i-2));
+        
+        pair<int,int> res(real, imaginary);
+        return res;
+    }
+    string complexNumberMultiply(string num1, string num2) {
+        pair<int,int> p1= helper(num1), p2= helper(num2);
+        
+         // c1* c2= (ac-bd) + i(ad+bc);
+        int a=p1.first, c=p2.first;
+        int b=p1.second, d=p2.second;
+        
+        return to_string(a*c-b*d)+'+'+to_string(a*d+b*c)+'i';
+    }
+};
