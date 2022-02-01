@@ -274,3 +274,133 @@ public:
     }
     
 };
+
+
+// 169. Majority Element
+// https://leetcode.com/problems/majority-element/
+// moore's voting algorithm  O(N) O(1)
+
+class Solution {
+public:
+    bool check(vector<int>&nums, int x,int n)
+    {
+        int cnt=0;
+        for(auto ele:nums)
+            if(ele==x) cnt++;
+        return (cnt>n/2);
+    }
+    int get_ans(vector<int>&nums,int n)
+    {
+        int val=nums[0];
+        int cnt=1;
+        for(int i=1;i<n;i++)
+        {
+            if(nums[i]==val)
+                cnt++;
+            else 
+                cnt--;
+            if(cnt==0)
+            {
+                val=nums[i];
+                cnt=1;
+            }
+        }
+        // potential majority element => val;
+        // now check if it is actually a majority element or not 
+        if(check(nums, val, n)) return val;
+        return -1;
+    }
+    int majorityElement(vector<int>& nums) {
+        int n=nums.size();
+        int ans = get_ans(nums, n);
+        return ans;
+    }
+};
+
+// 229. Majority Element II
+// https://leetcode.com/problems/majority-element-ii/
+// moore's voting algo O(n) O(1)
+
+class Solution {
+public:
+    bool check(vector<int>&nums, int x, int n)
+    {
+        int cnt=0;
+        for(auto ele: nums)
+            if(ele==x) cnt++;
+        return (cnt>floor(n/3));
+    }
+    vector<int> get_ans(vector<int>&nums,int n)
+    {
+        int val1=nums[0], cnt1=1;
+        int val2=INT_MIN, cnt2=0;
+        vector<int> res;
+        for(int i=1;i<n;i++)
+        {
+            if(nums[i]==val1) cnt1++;
+            else if(nums[i]==val2) cnt2++;
+            else
+            {
+                if(cnt1==0){
+                    val1=nums[i];
+                    cnt1=1;
+                }
+                else if(cnt2==0){
+                    val2=nums[i];
+                    cnt2=1;
+                }
+                else
+                {
+                    cnt1--;
+                    cnt2--;
+                }
+            }
+        }
+         // val1 and val2 arre potential numbers 
+        // let's verify
+        if(check(nums, val1, n)) res.push_back(val1);
+        if(check(nums, val2, n)) res.push_back(val2);
+        return res;
+    }
+    vector<int> majorityElement(vector<int>& nums) {
+        
+        int n=nums.size();
+        if(n==1) return {nums[0]};
+        vector<int> ans = get_ans(nums, n);
+        return ans;
+    }
+};
+
+// 345. Reverse Vowels of a String
+// https://leetcode.com/problems/reverse-vowels-of-a-string/
+// two pointers O(N)
+class Solution {
+public:
+    bool check(char ch)
+    {
+        return (ch=='a' or ch=='e' or ch=='i' or ch=='o' or ch=='u' or ch=='A' or ch=='E' or ch=='I' or ch=='O' or ch=='U');
+    }
+    string reverseVowels(string s) {
+        //transform(s.begin(), s.end(), s.begin(), ::tolower);
+        int i=0;
+        int j=s.size()-1;
+        
+        while(i<j)
+        {
+            if(!check(s[i]) and !(check(s[j]))){
+                i++;
+                j--;
+            }
+            else if(!check(s[i])) i++;
+            else if(!check(s[j])) j--;
+            else
+            {
+               swap(s[i], s[j]);
+                i++;
+                j--; 
+            }
+            
+        }
+        return s;
+    }
+};
