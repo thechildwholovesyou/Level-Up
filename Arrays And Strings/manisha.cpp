@@ -616,3 +616,115 @@ public:
         return lmax.size();
     }
 };
+
+// 1. Two Sum
+// https://leetcode.com/problems/two-sum/
+
+class Solution {
+public:
+    vector<int> twoSum(vector<int>& nums, int target) {
+        vector<int> v;
+        map<int,int>m;
+        for(int i=0;i<nums.size();i++)
+        {
+            if(m.find(target-nums[i])!=m.end())
+            {
+                v.push_back(m[target-nums[i]]);
+                v.push_back(i);
+            }
+            m[nums[i]]=i;
+        }
+        return v;
+    }
+};
+
+// 2 sum -> leetcode wala nhi 
+// hashmap wali approach nhi ... 
+// https://classroom.pepcoding.com/resources/data-structures-and-algorithms-in-java-levelup/arrays-and-strings/2-sum-target-sum-unique-pairs/ojquestion
+
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n;
+    cin>>n;
+    vector<int> v;
+    for(int i=0;i<n;i++)
+    {
+        int data;
+        cin>>data;
+        v.push_back(data);
+    }
+    int k;
+    cin>>k;
+
+    sort(v.begin(), v.end());
+    int i=0;
+    int j=v.size()-1;
+    while(i<j)
+    {
+        if(i!=0 and v[i-1]==v[i])
+        {
+            i++;
+            continue;
+        }
+        if(v[i]+v[j]==k)
+        {
+            cout<<v[i]<<" "<<v[j]<<endl;
+            i++;j--;
+        }
+        else if(v[i]+v[j]<k)
+            i++;
+        else
+            j--;
+    }
+    return 0;
+}
+
+// 15. 3Sum
+// https://leetcode.com/problems/3sum/
+
+class Solution {
+public:
+     vector<vector<int>> twoSum(vector<int>& nums, int start, int target) {
+        vector<vector<int>> ans;
+        int i=start;
+        int j=nums.size()-1;
+        while(i<j)
+        {
+            if(nums[i]+nums[j]==target)
+            {
+                ans.push_back({nums[i],nums[j]});
+                i++;
+                j--;
+
+                while(i<j and nums[i]==nums[i-1]) i++;
+                while(i<j and nums[j]==nums[j+1]) j--;
+            }
+            else if(nums[i]+nums[j]<target)
+                i++;
+            else
+                j--;
+        }
+        return ans;
+    }
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>>bigAns;
+        if(nums.size()<3) return bigAns;
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<nums.size();i++)
+        {
+            if(i==0 || nums[i]!=nums[i-1])
+            {
+                vector<vector<int>> temp=twoSum(nums,i+1, -1*nums[i]);
+                for(auto smallAns:temp)
+                {
+                    smallAns.push_back(nums[i]);
+                    bigAns.push_back(smallAns);
+                }
+            }
+            
+        }
+        return bigAns;
+    }
+};
