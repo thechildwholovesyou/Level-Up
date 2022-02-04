@@ -534,3 +534,85 @@ public:
         return max(max1*max2*max3, max1*min1*min2);
     }
 };
+
+// 769. Max Chunks To Make Sorted
+// https://leetcode.com/problems/max-chunks-to-make-sorted/
+// O(N) O(1)
+
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        int cnt=0;
+        int maxReach =arr[0];
+        for(int i=0;i<arr.size();i++)
+        {
+            maxReach = max(maxReach, arr[i]);
+            if(i==maxReach)
+                cnt++;
+        }
+        return cnt;
+    }
+};
+
+// another appraoch 
+
+class Solution {
+public:
+    int maxChunksToSorted(vector<int>& arr) {
+        int n=arr.size();
+        vector<int> lmax(n), rmin(n+1);
+        lmax[0]=arr[0];
+        
+        //fill lmax 
+        for(int i=1;i<n;i++)
+        {
+            lmax[i]=max(lmax[i-1],arr[i]);
+        }
+        // fill rmin
+        rmin[n]=INT_MAX;
+        for(int i=n-1;i>=0;i--)
+        {
+            rmin[i]=min(rmin[i+1], arr[i]);
+        }
+        
+        // maintain count
+        int cnt=0;
+        
+        for(int i=0;i<lmax.size();i++)
+        {
+            if(lmax[i]<=rmin[i+1]) cnt++;
+        }
+        return cnt;
+    }
+};
+
+// 915. Partition Array into Disjoint Intervals
+// https://leetcode.com/problems/partition-array-into-disjoint-intervals/
+
+class Solution {
+public:
+    int partitionDisjoint(vector<int>& nums) {
+        int n=nums.size();
+        vector<int> lmax(n), rmin(n+1);
+        
+        // fill lmax
+        lmax[0]=nums[0];
+        for(int i=1;i<n;i++)
+        {
+            lmax[i]=max(lmax[i-1],nums[i]);
+        }
+        // fill rmin
+        rmin[n]=INT_MAX;
+        for(int i=n-1;i>=0;i--)
+        {
+            rmin[i]=min(rmin[i+1], nums[i]);
+        }
+        
+        // logic 
+        for(int i=1;i<n;i++)
+        {
+            if(lmax[i-1]<=rmin[i]) return i;
+        }
+        return lmax.size();
+    }
+};
