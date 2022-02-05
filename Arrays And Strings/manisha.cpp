@@ -751,3 +751,74 @@ public:
         }
     }
 };
+
+// 508 · Wiggle Sort
+// https://www.lintcode.com/problem/wiggle-sort/description
+
+class Solution {
+public:
+    /*
+     * @param nums: A list of integers
+     * @return: nothing
+     */
+    void wiggleSort(vector<int> &nums) {
+        int n=nums.size();
+        for(int i=0;i<n-1;i++)
+        {
+            // even idx
+            if(i%2==0)
+            {
+                if(nums[i+1]<nums[i])
+                {
+                    swap(nums[i+1],nums[i]);
+                }
+            }
+            
+            // odd idx
+            else if(i%2!=0)
+            {
+                if(nums[i+1]>nums[i])
+                {
+                    swap(nums[i+1],nums[i]);
+                }
+            }
+        }
+        return;
+    }
+};
+
+// 324. Wiggle Sort II
+// https://leetcode.com/problems/wiggle-sort-ii/
+// O(nlogn) O(n)
+class Solution {
+public:
+    void wiggleSort(vector<int>& nums) {
+        int n=nums.size();
+        // sort the array 
+        sort(nums.begin(), nums.end());
+        // make an extra array and manage equlaity in it 
+        vector<int> temp(n);
+        int i=1;
+        int j=n-1;
+        
+        while(i<n)
+        {
+            temp[i]=nums[j];
+            i+=2;
+            j--;
+        }
+        i=0;
+        while(i<n)
+        {
+            temp[i]=nums[j];
+            i+=2;
+            j--;
+        }
+        
+        // fill the input array 
+        for(int k=0;k<n;k++)
+        {
+            nums[k]=temp[k];
+        }
+    }
+};
