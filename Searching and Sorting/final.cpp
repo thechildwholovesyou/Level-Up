@@ -374,3 +374,141 @@ int allocateBooks(vector<int> arr, int n, int m) {
     }
     return ans;
 }
+
+// 1011. Capacity To Ship Packages Within D Days
+// https://leetcode.com/problems/capacity-to-ship-packages-within-d-days/
+
+class Solution {
+public:
+    
+    bool check(vector<int>& weights,int mid, int days)
+    {
+        int d=1;
+        int sum=0;
+        
+        for(auto ele: weights)
+        {
+            sum+=ele;
+            if(sum>mid)
+            {
+                d++;
+                sum=ele;
+            }
+        }
+        return d<=days;
+    }
+    int shipWithinDays(vector<int>& weights, int days) {
+        int n=weights.size();
+        
+        int sum=0;
+        for(auto ele: weights)
+            sum+=ele;
+        
+        int low=*max_element(weights.begin(),weights.end());
+        int high = sum;
+        
+        int ans = 0;
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(check(weights, mid, days))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return ans;
+    }
+    
+};
+
+// 410. Split Array Largest Sum
+// https://leetcode.com/problems/split-array-largest-sum/
+
+class Solution {
+public:
+    
+    bool check(vector<int>& nums, int mid,int k)
+    {
+        int cnt=1;
+        int sum=0;
+        for(auto ele: nums)
+        {
+            sum+=ele;
+            if(sum>mid)
+            {
+                cnt++;
+                sum=ele;
+            }
+        }
+        return cnt<=k;
+    }
+    int splitArray(vector<int>& nums, int k) {
+        int n = nums.size();
+        
+        int sum=0;
+        for(auto ele: nums) sum+=ele;
+        
+        int low=*max_element(nums.begin(), nums.end());
+        int high = sum;
+        
+        int ans=-1;
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            if(check(nums, mid, k))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+                low=mid+1;
+        }
+        return ans;
+    }
+};
+
+//  Find the Smallest Divisor Given a Threshold
+// https://leetcode.com/problems/find-the-smallest-divisor-given-a-threshold/
+
+class Solution {
+public:
+    bool check(vector<int>&nums, int mid, int threshold)
+    {
+        int sum=0;
+        for(auto ele: nums)
+        {
+            sum+=(int)ceil(ele*1.0/mid);
+        }
+        return sum<=threshold;
+    }
+    int smallestDivisor(vector<int>& nums, int threshold) {
+        
+        int low=1;
+        int  high=*max_element(nums.begin(), nums.end());
+        
+        int ans=-1;
+        
+        while(low<=high)
+        {
+            int mid=low+(high-low)/2;
+            
+            if(check(nums, mid, threshold))
+            {
+                ans=mid;
+                high=mid-1;
+            }
+            else
+            {
+                low=mid+1;
+            }
+        }
+        
+        return ans;
+    }
+};
+
